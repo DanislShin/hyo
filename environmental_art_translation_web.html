@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Environmental Art 본문 & 한글 해석</title>
+<style>
+:root{
+  --bg:#f6f1e8;--paper:#fffaf2;--ink:#172033;--muted:#667085;--line:#dfd3c3;
+  --accent:#7c4a28;--gold:#d7a33d;--soft:#fff6d8;--green:#14532d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbf7ef,#f3ecdf);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}
+header{background:radial-gradient(circle at 15% 0%,rgba(215,163,61,.25),transparent 34rem);border-bottom:1px solid var(--line)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px}
+h1{margin:0;font-size:clamp(24px,3vw,38px);letter-spacing:-.045em}
+.sub{margin:10px 0 0;color:var(--muted);line-height:1.65}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+button{border:1px solid #d8c7b1;background:white;border-radius:999px;padding:9px 13px;font-weight:850;cursor:pointer}
+button.primary{background:var(--accent);color:white;border-color:var(--accent)}
+button.gold{background:#fff5d6;color:#5f3b00;border-color:#edca73}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:18px;max-width:1180px;margin:0 auto;padding:18px}
+nav{position:sticky;top:14px;align-self:start;background:rgba(255,250,242,.88);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 8px 18px rgba(45,35,20,.08)}
+nav a{display:block;text-decoration:none;color:#4b3420;font-weight:850;padding:9px 10px;border-radius:12px;margin-bottom:4px}
+nav a:hover{background:var(--soft)}
+.card{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:22px;margin-bottom:18px;box-shadow:0 10px 24px rgba(45,35,20,.1);overflow:hidden}
+.card-head{padding:18px 18px 14px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#fffaf2,#fff7e7)}
+.badge{display:inline-block;background:#efe0ca;color:#5b3a1a;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:950;margin-bottom:8px}
+h2{margin:0;font-size:clamp(20px,2.5vw,28px);letter-spacing:-.035em}
+.summary{margin:10px 0 0;line-height:1.65;color:#4b5563;font-weight:700}
+.lines{padding:14px}
+.line{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:1px solid #eadfce;background:white;border-radius:16px;padding:12px;margin-bottom:10px}
+.en{font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.6;color:#111827}
+.ko{font-size:16px;line-height:1.65;font-weight:750;color:#263143}
+.line-num{font-size:12px;color:#8a6b42;font-weight:900;margin-bottom:4px}
+.hidden-en .en{display:none}.hidden-ko .ko{display:none}.hidden-en .line,.hidden-ko .line{grid-template-columns:1fr}
+.vocab{background:white;border:1px solid var(--line);border-radius:20px;padding:16px;margin:18px 0;box-shadow:0 8px 18px rgba(45,35,20,.07)}
+.vocab h2{font-size:22px;margin-bottom:10px}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.term{border:1px solid #eadfce;border-radius:13px;padding:9px 11px;background:#fffaf2}
+.term b{color:#5b3a1a}
+.full-text{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:18px;line-height:1.8}
+.full-text p{margin:0 0 14px}
+.note{background:#dcfce7;color:var(--green);border-radius:14px;padding:12px 14px;font-weight:850;line-height:1.65;margin-top:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.line{grid-template-columns:1fr}nav{position:static}.vocab-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Environmental Art 본문 & 한글 해석</h1>
+    <p class="sub">그림별로 영어 본문과 한글 해석을 나란히 정리했습니다. 수업용으로 바로 볼 수 있게 핵심 요약과 주요 표현도 함께 넣었습니다.</p>
+    <div class="toolbar">
+      <button class="primary" onclick="showBoth()">영어+해석 보기</button>
+      <button class="gold" onclick="showEnglish()">영어만 보기</button>
+      <button class="gold" onclick="showKorean()">해석만 보기</button>
+      <button onclick="window.print()">인쇄하기</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav>
+    <a href="#intro">도입 · Art and Environmental Issues</a>
+<a href="#plastic">그림 1 · Benjamin Von Wong — Turn Off the Plastic Tap</a>
+<a href="#forget">그림 2 · Jenny Kendler — Forget Me Not</a>
+<a href="#homestead">그림 3 · Jon Ching — Homestead</a>
+<a href="#conclusion">마무리 · Art Inspires Action</a>
+  </nav>
+  <main id="content">
+    
+    <section class="card" id="intro">
+      <div class="card-head">
+        <span class="badge">도입</span>
+        <h2>Art and Environmental Issues</h2>
+        <p class="summary">예술은 아름다움만 보여주는 것이 아니라, 사회·환경 문제에 대한 반응과 행동을 이끌어낼 수 있다는 도입부입니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>While art can stir up a sense of beauty in us, it can also draw a spirited reaction from the public.</div>
+          <div class="ko"><div class="line-num">해석 1</div>예술은 우리 안에 아름다움에 대한 감각을 불러일으킬 수 있지만, 대중으로부터 활기찬 반응을 끌어낼 수도 있다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>An excellent artistic piece can communicate a message to us and even change our ways of looking at our surroundings.</div>
+          <div class="ko"><div class="line-num">해석 2</div>뛰어난 예술 작품은 우리에게 메시지를 전달하고, 심지어 주변 환경을 바라보는 우리의 방식을 바꿀 수도 있다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>That is why art has played an essential role in addressing social and global issues throughout history.</div>
+          <div class="ko"><div class="line-num">해석 3</div>그래서 예술은 역사 전반에 걸쳐 사회적·세계적 문제를 다루는 데 필수적인 역할을 해 왔다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>Let us take a look at a few modern artworks that address environmental issues.</div>
+          <div class="ko"><div class="line-num">해석 4</div>환경 문제를 다루는 몇몇 현대 예술 작품을 살펴보자.</div>
+        </div>
+        
+      </div>
+    </section>
+    
+
+    <section class="card" id="plastic">
+      <div class="card-head">
+        <span class="badge">그림 1</span>
+        <h2>Benjamin Von Wong — Turn Off the Plastic Tap</h2>
+        <p class="summary">플라스틱이 매분 엄청난 양으로 바다에 들어간다는 사실을 시각적으로 강조한 작품입니다. 개인 소비뿐 아니라 기업과 정부의 책임까지 연결합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>The first art piece is a photograph by Benjamin Von Wong.</div>
+          <div class="ko"><div class="line-num">해석 1</div>첫 번째 예술 작품은 Benjamin Von Wong의 사진이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>His artworks rally people around environmental actions.</div>
+          <div class="ko"><div class="line-num">해석 2</div>그의 작품들은 사람들이 환경 행동을 중심으로 함께 움직이도록 만든다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>In the photo on the left, titled Turn Off the Plastic Tap, he tries to highlight the fact that a huge amount of plastic enters the ocean every minute.</div>
+          <div class="ko"><div class="line-num">해석 3</div>왼쪽 사진인 『Turn Off the Plastic Tap』에서 그는 매분 엄청난 양의 플라스틱이 바다로 들어간다는 사실을 강조하려 한다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>He says, “You can’t order a product online without having it delivered in plastic packaging.</div>
+          <div class="ko"><div class="line-num">해석 4</div>그는 말한다. “온라인으로 제품을 주문하면 그것이 플라스틱 포장으로 배송되는 일을 피할 수 없습니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>Also, the clothes you are wearing must be, at least in part, made of plastic.</div>
+          <div class="ko"><div class="line-num">해석 5</div>또한 여러분이 입고 있는 옷도 적어도 어느 정도는 플라스틱으로 만들어졌을 것입니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>Dependence on plastic is built into the supply chain, so the individual consumer finds it harder and harder to opt out.</div>
+          <div class="ko"><div class="line-num">해석 6</div>플라스틱 의존은 공급망 안에 구조적으로 들어가 있어서, 개별 소비자가 거기서 벗어나기는 점점 더 어려워집니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>Of course, you can choose not to purchase products containing plastic, but that only goes so far.</div>
+          <div class="ko"><div class="line-num">해석 7</div>물론 플라스틱이 들어간 제품을 사지 않겠다고 선택할 수는 있지만, 그것만으로는 한계가 있습니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>I think it is important for you to inform your friends and family of the issue because at the end of the day, you know, companies and governments can’t ignore the interest of the consumers.</div>
+          <div class="ko"><div class="line-num">해석 8</div>여러분이 이 문제를 친구와 가족에게 알리는 것이 중요하다고 생각합니다. 결국 기업과 정부는 소비자들의 관심을 무시할 수 없기 때문입니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>At the same time, we also need to pressure governments and corporations to do the right thing.”</div>
+          <div class="ko"><div class="line-num">해석 9</div>동시에 우리는 정부와 기업이 올바른 일을 하도록 압력을 가할 필요도 있습니다.”</div>
+        </div>
+        
+      </div>
+    </section>
+    
+
+    <section class="card" id="forget">
+      <div class="card-head">
+        <span class="badge">그림 2</span>
+        <h2>Jenny Kendler — Forget Me Not</h2>
+        <p class="summary">바다 산성화와 화석 연료 사용 문제를 다룹니다. 조개껍데기와 소리 장치를 통해 해양 생물이 겪을 수 있는 위험을 상상하게 합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>The next piece, titled Forget Me Not, is Jenny Kendler’s personal love letter to the sea.</div>
+          <div class="ko"><div class="line-num">해석 1</div>다음 작품인 『Forget Me Not』은 Jenny Kendler가 바다에 보내는 개인적인 러브레터이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>She covered an old boom box with various shells, which took her a year to collect.</div>
+          <div class="ko"><div class="line-num">해석 2</div>그녀는 오래된 붐박스를 여러 조개껍데기로 덮었는데, 그것들을 모으는 데 1년이 걸렸다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>The boom box plays something you may regard as calming ocean sounds.</div>
+          <div class="ko"><div class="line-num">해석 3</div>그 붐박스는 우리가 잔잔한 바다 소리라고 여길 만한 소리를 재생한다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>They are actually what she recorded as she had one of her baby teeth dissolve in acid.</div>
+          <div class="ko"><div class="line-num">해석 4</div>그 소리들은 사실 그녀가 자신의 젖니 하나를 산에 녹이는 동안 녹음한 것이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>She wanted us to think of what sea creatures might go through one day if we continue burning fossil fuels carelessly.</div>
+          <div class="ko"><div class="line-num">해석 5</div>그녀는 우리가 화석 연료를 부주의하게 계속 태운다면 언젠가 바다 생물들이 어떤 일을 겪을지 생각해 보기를 원했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>As the ocean absorbs more and more carbon dioxide, it becomes more and more acidic.</div>
+          <div class="ko"><div class="line-num">해석 6</div>바다가 점점 더 많은 이산화탄소를 흡수함에 따라, 바다는 점점 더 산성화된다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>Under this condition, the hard shells of many marine species will dissolve.</div>
+          <div class="ko"><div class="line-num">해석 7</div>이런 조건에서는 많은 해양 생물의 단단한 껍데기가 녹게 될 것이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>Kendler says, “I wanted to inspire people to raise their own awareness about what they can actually do as individuals,</div>
+          <div class="ko"><div class="line-num">해석 8</div>Kendler는 말한다. “저는 사람들이 개인으로서 실제로 무엇을 할 수 있는지에 대한 스스로의 인식을 높이도록 영감을 주고 싶었습니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>but at the same time, I hoped to encourage collective action and collective responsibility.</div>
+          <div class="ko"><div class="line-num">해석 9</div>하지만 동시에 집단적 행동과 집단적 책임도 장려하고 싶었습니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 10</div>One thing that art can do really well is to help us imagine how the world might be otherwise.</div>
+          <div class="ko"><div class="line-num">해석 10</div>예술이 정말 잘할 수 있는 일 중 하나는 세상이 다른 모습일 수도 있다는 것을 우리가 상상하도록 돕는 것입니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 11</div>Certainly, we can’t get to a different place if we can’t imagine it.”</div>
+          <div class="ko"><div class="line-num">해석 11</div>분명히, 우리가 그것을 상상할 수 없다면 다른 곳으로 나아갈 수 없습니다.”</div>
+        </div>
+        
+      </div>
+    </section>
+    
+
+    <section class="card" id="homestead">
+      <div class="card-head">
+        <span class="badge">그림 3</span>
+        <h2>Jon Ching — Homestead</h2>
+        <p class="summary">자연과 인간의 연결성을 보여주는 그림입니다. 자연을 보호하는 일이 결국 우리 자신을 보호하는 일이라는 메시지를 전달합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>The piece below, titled Homestead, is a painting by Jon Ching.</div>
+          <div class="ko"><div class="line-num">해석 1</div>아래 작품인 『Homestead』는 Jon Ching의 그림이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>Most of his work, including this painting, is a celebration of nature and a quiet appeal to humans to appreciate the world around them.</div>
+          <div class="ko"><div class="line-num">해석 2</div>이 그림을 포함한 그의 작품 대부분은 자연에 대한 찬미이자, 인간이 주변 세계를 소중히 여기도록 하는 조용한 호소이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>“I believe we’ve separated ourselves from nature and no longer see how we fit in.</div>
+          <div class="ko"><div class="line-num">해석 3</div>“저는 우리가 스스로를 자연과 분리해 왔고, 우리가 그 안에서 어떻게 어울려 살아가는지 더 이상 보지 못한다고 생각합니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>Instead of helping nature thrive, we are simply consuming it,” says Ching.</div>
+          <div class="ko"><div class="line-num">해석 4</div>자연이 번성하도록 돕는 대신, 우리는 그저 자연을 소비하고 있을 뿐입니다.”라고 Ching은 말한다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>One cannot help but smile at his paintings, which are rich in color and tenderness.</div>
+          <div class="ko"><div class="line-num">해석 5</div>색채와 따뜻함이 풍부한 그의 그림을 보면 미소 짓지 않을 수 없다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>One of the fun aspects of his work is how he blends the features of one life form with those of another.</div>
+          <div class="ko"><div class="line-num">해석 6</div>그의 작품에서 재미있는 측면 중 하나는 한 생명체의 특징을 다른 생명체의 특징과 섞는 방식이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>“I’ve been using my work as a means of commenting on issues and problems I’m heavily interested in.</div>
+          <div class="ko"><div class="line-num">해석 7</div>“저는 제가 깊이 관심을 두고 있는 쟁점과 문제들에 대해 의견을 표현하는 수단으로 제 작품을 사용해 왔습니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>I find it necessary to express a silver lining rather than just reflect on what’s wrong.</div>
+          <div class="ko"><div class="line-num">해석 8</div>저는 무엇이 잘못되었는지만 비추기보다는 희망적인 면을 표현하는 것이 필요하다고 생각합니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>I want to show that everything is connected and that protecting nature is actually protecting us.</div>
+          <div class="ko"><div class="line-num">해석 9</div>저는 모든 것이 연결되어 있으며, 자연을 보호하는 것이 실제로는 우리를 보호하는 일이라는 것을 보여 주고 싶습니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 10</div>My call to action is to remember the magic and wonder of this planet.”</div>
+          <div class="ko"><div class="line-num">해석 10</div>제가 행동을 촉구하는 메시지는 이 행성의 마법과 경이로움을 기억하라는 것입니다.”</div>
+        </div>
+        
+      </div>
+    </section>
+    
+
+    <section class="card" id="conclusion">
+      <div class="card-head">
+        <span class="badge">마무리</span>
+        <h2>Art Inspires Action</h2>
+        <p class="summary">예술은 환경에 대한 대화를 시작하게 할 뿐 아니라, 사람들이 실제 행동으로 나아가게 만드는 힘이 있다는 결론입니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>Art can strike up conversations about the environment, but more importantly, it can also make a great difference by inspiring us to take action.</div>
+          <div class="ko"><div class="line-num">해석 1</div>예술은 환경에 대한 대화를 시작하게 할 수 있지만, 더 중요하게는 우리가 행동하도록 영감을 줌으로써 큰 변화를 만들어 낼 수도 있다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>The following words from Andy Warhol, an American pop artist, ring especially true in this context.</div>
+          <div class="ko"><div class="line-num">해석 2</div>미국의 팝 아티스트 Andy Warhol의 다음 말은 이런 맥락에서 특히 진실하게 와닿는다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>“They always say time changes things, but you actually have to change them yourself.”</div>
+          <div class="ko"><div class="line-num">해석 3</div>“사람들은 항상 시간이 사물을 바꾼다고 말하지만, 사실은 여러분 스스로 그것들을 바꿔야 한다.”</div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="vocab">
+      <h2>주요 표현 정리</h2>
+      <div class="vocab-grid">
+        <div class="term"><b>stir up</b><br>불러일으키다</div>
+<div class="term"><b>spirited reaction</b><br>활기찬 반응, 강한 반응</div>
+<div class="term"><b>surroundings</b><br>주변 환경</div>
+<div class="term"><b>address issues</b><br>문제를 다루다</div>
+<div class="term"><b>rally people around ~</b><br>사람들을 ~을 중심으로 결집시키다</div>
+<div class="term"><b>highlight the fact that ~</b><br>~라는 사실을 강조하다</div>
+<div class="term"><b>supply chain</b><br>공급망</div>
+<div class="term"><b>opt out</b><br>빠지다, 벗어나다</div>
+<div class="term"><b>go so far</b><br>어느 정도까지만 효과가 있다</div>
+<div class="term"><b>collective action</b><br>집단적 행동</div>
+<div class="term"><b>otherwise</b><br>다른 방식으로, 다르게</div>
+<div class="term"><b>appeal</b><br>호소</div>
+<div class="term"><b>thrive</b><br>번성하다</div>
+<div class="term"><b>silver lining</b><br>희망적인 면</div>
+<div class="term"><b>call to action</b><br>행동 촉구</div>
+<div class="term"><b>ring true</b><br>진실하게 들리다, 와닿다</div>
+      </div>
+    </section>
+    <section class="full-text">
+      <h2>전체 핵심 흐름</h2>
+      <p>예술은 아름다움을 느끼게 하는 것을 넘어, 사회적·환경적 문제를 바라보는 방식을 바꾸고 행동을 이끌어낼 수 있다.</p>
+      <p><b>Turn Off the Plastic Tap</b>은 플라스틱 오염 문제와 소비자·기업·정부의 책임을 보여 준다.</p>
+      <p><b>Forget Me Not</b>은 바다 산성화와 화석 연료 사용이 해양 생물에게 줄 위험을 상상하게 한다.</p>
+      <p><b>Homestead</b>는 인간과 자연의 연결성을 보여 주며, 자연 보호가 곧 인간 보호라는 메시지를 전달한다.</p>
+      <div class="note">결론: 예술은 환경에 대한 대화를 시작하게 할 뿐 아니라, 우리를 실제 행동으로 이끌 수 있다.</div>
+    </section>
+  </main>
+</div>
+
+<script>
+function showBoth(){document.body.classList.remove('hidden-en','hidden-ko')}
+function showEnglish(){document.body.classList.remove('hidden-en');document.body.classList.add('hidden-ko')}
+function showKorean(){document.body.classList.remove('hidden-ko');document.body.classList.add('hidden-en')}
+</script>
+</body>
+</html>

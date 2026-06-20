@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>영어 학습 자료 인덱스</title>
+<style>
+  :root {
+    --bg: #f6f1e8;
+    --paper: #fffaf2;
+    --ink: #172033;
+    --muted: #667085;
+    --line: #dfd3c3;
+    --accent: #7c4a28;
+    --gold: #d7a33d;
+    --soft: #fff6d8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top left, rgba(215, 163, 61, .24), transparent 34rem),
+      linear-gradient(180deg, #fbf7ef, var(--bg));
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+  }
+
+  header {
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 250, 242, .58);
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 18px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -0.055em;
+  }
+
+  .sub {
+    margin: 10px 0 0;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 650;
+  }
+
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 22px 18px 46px;
+  }
+
+  .section {
+    background: rgba(255, 250, 242, .93);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 12px 28px rgba(45, 35, 20, .1);
+  }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(21px, 2.7vw, 30px);
+    letter-spacing: -0.04em;
+  }
+
+  .desc {
+    margin: 0;
+    color: var(--muted);
+    font-weight: 750;
+  }
+
+  .row {
+    display: grid;
+    gap: 12px;
+  }
+
+  .row.numbered {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .row.ebs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .row.reading {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border: 1px solid #eadfce;
+    border-radius: 18px;
+    padding: 16px;
+    min-height: 116px;
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: #c9a878;
+    box-shadow: 0 12px 22px rgba(45, 35, 20, .12);
+    background: #fffdf7;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #efe0ca;
+    color: #5b3a1a;
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 950;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 950;
+    letter-spacing: -0.035em;
+    margin-bottom: 7px;
+  }
+
+  .card-desc {
+    color: #4b5563;
+    line-height: 1.55;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .notice {
+    background: #fff;
+    border: 1px dashed #cdb892;
+    border-radius: 18px;
+    padding: 14px 16px;
+    color: #5b3a1a;
+    line-height: 1.65;
+    font-weight: 800;
+  }
+
+  .filename {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    color: #6b4d2b;
+  }
+
+  @media (max-width: 900px) {
+    .row.numbered,
+    .row.ebs,
+    .row.reading {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .row.numbered,
+    .row.ebs,
+    .row.reading {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      min-height: auto;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>영어 학습 자료 인덱스</h1>
+    <p class="sub">
+      파일들을 같은 폴더에 두고 이 <b>index.html</b>을 열면, 아래 링크로 바로 이동할 수 있습니다.
+    </p>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="section-head">
+      <h2>번호 문제</h2>
+      <p class="desc">21 · 33 · 34 · 38 한 줄 정렬</p>
+    </div>
+
+    <div class="row numbered">
+      <a class="card" href="21.html">
+        <span class="tag">번호 문제</span>
+        <div class="card-title">21번</div>
+        <div class="card-desc">shop for words 문장 배열</div>
+        <div class="filename">21.html</div>
+      </a>
+
+      <a class="card" href="33.html">
+        <span class="tag">번호 문제</span>
+        <div class="card-title">33번</div>
+        <div class="card-desc">olfactory experience 문장 배열</div>
+        <div class="filename">33.html</div>
+      </a>
+
+      <a class="card" href="34.html">
+        <span class="tag">번호 문제</span>
+        <div class="card-title">34번</div>
+        <div class="card-desc">consequences 문장 배열</div>
+        <div class="filename">34.html</div>
+      </a>
+
+      <a class="card" href="38.html">
+        <span class="tag">번호 문제</span>
+        <div class="card-title">38번</div>
+        <div class="card-desc">gesture memory 문장 배열</div>
+        <div class="filename">38.html</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>EBS 자료</h2>
+      <p class="desc">EBS1 · EBS2 · EBS3 한 줄 정렬</p>
+    </div>
+
+    <div class="row ebs">
+      <a class="card" href="EBS1.html">
+        <span class="tag">EBS</span>
+        <div class="card-title">EBS 1</div>
+        <div class="card-desc">EBS 본문 / 문제 자료 1</div>
+        <div class="filename">EBS1.html</div>
+      </a>
+
+      <a class="card" href="EBS2.html">
+        <span class="tag">EBS</span>
+        <div class="card-title">EBS 2</div>
+        <div class="card-desc">EBS 본문 / 문제 자료 2</div>
+        <div class="filename">EBS2.html</div>
+      </a>
+
+      <a class="card" href="EBS3.html">
+        <span class="tag">EBS</span>
+        <div class="card-title">EBS 3</div>
+        <div class="card-desc">EBS 본문 / 문제 자료 3</div>
+        <div class="filename">EBS3.html</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>본문 해석</h2>
+      <p class="desc">Banksy · Environmental Art · Speech Assignment 한 줄 정렬</p>
+    </div>
+
+    <div class="row reading">
+      <a class="card" href="banksy_port_talbot_translation_web.html">
+        <span class="tag">본문 해석</span>
+        <div class="card-title">Banksy</div>
+        <div class="card-desc">Banksy’s New Work in Port Talbot</div>
+        <div class="filename">banksy_port_talbot_translation_web.html</div>
+      </a>
+
+      <a class="card" href="environmental_art_translation_web.html">
+        <span class="tag">본문 해석</span>
+        <div class="card-title">Environmental Art</div>
+        <div class="card-desc">환경 예술 작품 본문 해석</div>
+        <div class="filename">environmental_art_translation_web.html</div>
+      </a>
+
+      <a class="card" href="speech_assignment_translation_web.html">
+        <span class="tag">본문 해석</span>
+        <div class="card-title">Speech Assignment</div>
+        <div class="card-desc">발표 과제 본문 해석</div>
+        <div class="filename">speech_assignment_translation_web.html</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="notice">
+    공유할 때는 이 <b>index.html</b>과 위의 HTML 파일들을 모두 같은 폴더에 넣으면 됩니다.
+    파일명이 바뀌면 링크도 같이 바꿔야 합니다.
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tangible Creation 드래그 문장 배열</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f1e8;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo",Segoe UI,sans-serif}
+header,main{max-width:1100px;margin:0 auto;padding:22px 16px}h1{margin:0;font-size:clamp(23px,3vw,34px);letter-spacing:-.04em}.sub{color:#64748b;line-height:1.6;margin:8px 0 14px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}button{border:1px solid #d8c7b1;background:white;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}.primary{background:#7c4a28;color:white}.gold{background:#fff5d6;color:#5f3b00}
+.progress{display:flex;gap:12px;align-items:center;margin:8px 0 18px}.track{height:12px;background:#fff;border:1px solid #d8c7b1;border-radius:999px;flex:1;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#7c4a28,#d7a33d)}.score{font-weight:900;color:#5b3a1a}
+.card{background:#fffaf2;border:1px solid #dfd3c3;border-radius:20px;padding:16px;margin:0 0 16px;box-shadow:0 10px 24px rgba(45,35,20,.1)}
+.head{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}.num{background:#efe0ca;color:#5b3a1a;border-radius:999px;padding:6px 11px;font-weight:900}.ko{flex:1;font-size:18px;font-weight:850;line-height:1.5}.status{min-width:75px;text-align:right;color:#64748b;font-weight:900}
+.zone,.bank{min-height:62px;border-radius:15px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}.zone{background:white;border:2px dashed #cbbba7;margin-bottom:10px}.bank{background:#fff;border:1px solid #dfd3c3}.over{background:#fff6d8!important;border-color:#d7a33d!important}
+.chip{display:inline-flex;align-items:center;min-height:36px;padding:7px 11px;border:1px solid #d6c8b7;border-radius:999px;background:white;font-size:16px;font-weight:850;box-shadow:0 2px 7px rgba(0,0,0,.06);cursor:grab}.chip.dragging{opacity:.35}
+.actions{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px}.ans{display:none;margin-top:10px;background:#f8ead4;border-radius:13px;padding:11px;font-weight:800;line-height:1.55;color:#513414}.show{display:block}
+.correct .zone{background:#dcfce7;border-color:#22c55e}.wrong .zone{background:#fee2e2;border-color:#ef4444}.correct .status{color:#15803d}.wrong .status{color:#b91c1c}
+.final{background:#fff;border:1px solid #dfd3c3;border-radius:18px;padding:16px;margin-top:22px;line-height:1.75}.final h2{margin:0 0 8px}.good{background:#dcfce7;color:#14532d;border-radius:12px;padding:10px;font-weight:900}
+@media(max-width:680px){.head{flex-direction:column}.status{text-align:left}.ko{font-size:16px}.chip{font-size:15px}}
+</style>
+</head>
+<body>
+<header>
+<h1>Tangible Creation 문장 배열 드래그 퀴즈</h1>
+<p class="sub">한글 해석을 보고 단어 카드를 <b>정답 칸으로 드래그</b>해서 영어 문장을 완성하세요. 긴 문장은 의미 단위로 잘랐습니다.</p>
+<div class="toolbar">
+<button class="primary" onclick="checkAll()">전체 채점</button>
+<button class="gold" onclick="showAll()">전체 정답 보기</button>
+<button onclick="hideAll()">정답 숨기기</button>
+<button onclick="resetAll()">전체 초기화</button>
+</div>
+</header>
+<main>
+<div class="progress"><div class="track"><div class="bar" id="bar"></div></div><div class="score" id="score"></div></div>
+<section id="quiz"></section>
+<section class="final">
+<h2>빈칸 정답 정리</h2>
+<p>글의 핵심은 현대인이 손으로 무언가를 직접 만드는 경험에서 멀어지면서, 물리적 세계와 연결되고 싶은 욕구가 생겼다는 내용입니다. 그래서 마지막 빈칸에는 <b>만드는 행위 자체</b>가 들어가야 합니다.</p>
+<p class="good">정답: ① making things<br>→ 무언가를 만드는 것</p>
+<p>① <b>making things</b><br>② reading minds<br>③ seeking the truth<br>④ predicting the future<br>⑤ coming up with ideas</p>
+</section>
+</main>
+<script>
+const Q=[{"ko": "이전 세대들과 달리,", "tokens": ["Unlike", "previous", "generations,"], "id": 1, "answer": "Unlike previous generations,"}, {"ko": "점점 더 적은 현대 남성들이 만족감을 경험한다", "tokens": ["fewer", "and", "fewer", "modern", "men", "experience", "the", "satisfaction"], "id": 2, "answer": "fewer and fewer modern men experience the satisfaction"}, {"ko": "직장에서 만질 수 있는 창조를 해내는 것의.", "tokens": ["of", "tangible", "creation", "in", "the", "workplace."], "id": 3, "answer": "of tangible creation in the workplace."}, {"ko": "우리는 화면 위에서 숫자를 이리저리 옮기고,", "tokens": ["We", "move", "numbers", "around", "on", "a", "screen,"], "id": 4, "answer": "We move numbers around on a screen,"}, {"ko": "다른 사람들을 관리하는 사람들을 관리하거나,", "tokens": ["manage", "people", "who", "manage", "other", "people,"], "id": 5, "answer": "manage people who manage other people,"}, {"ko": "조언, 아이디어, 또는 다른 사람의 창작물을 판다.", "tokens": ["or", "sell", "advice,", "ideas,", "or", "someone", "else’s", "creations."], "id": 6, "answer": "or sell advice, ideas, or someone else’s creations."}, {"ko": "우리 중 많은 사람들에게,", "tokens": ["For", "many", "of", "us,"], "id": 7, "answer": "For many of us,"}, {"ko": "손으로 일하는 것에서의 변화는", "tokens": ["the", "shift", "from", "working", "with", "our", "hands"], "id": 8, "answer": "the shift from working with our hands"}, {"ko": "머리로 일하는 것으로의 변화는", "tokens": ["to", "working", "with", "our", "minds"], "id": 9, "answer": "to working with our minds"}, {"ko": "채워지지 않은 필요를 만들어 냈다", "tokens": ["has", "created", "an", "unfulfilled", "need"], "id": 10, "answer": "has created an unfulfilled need"}, {"ko": "우리가 사는 물리적 세계와 연결되고자 하는.", "tokens": ["for", "connection", "with", "the", "physical", "world", "we", "live", "in."], "id": 11, "answer": "for connection with the physical world we live in."}, {"ko": "물리적 창조는", "tokens": ["Physical", "creation"], "id": 12, "answer": "Physical creation"}, {"ko": "더 추상적인 ‘창의성’을 넘어서는", "tokens": ["beyond", "the", "more", "abstract", "“creativity”"], "id": 13, "answer": "beyond the more abstract “creativity”"}, {"ko": "그 연결을 제공한다.", "tokens": ["provides", "that", "connection."], "id": 14, "answer": "provides that connection."}, {"ko": "한 남자가 세상에 선언하는 방식이다,", "tokens": ["A", "way", "for", "a", "man", "to", "announce", "to", "the", "world,"], "id": 15, "answer": "A way for a man to announce to the world,"}, {"ko": "간단히, ‘나는 존재한다’라고.", "tokens": ["simply,", "“I", "am.”"], "id": 16, "answer": "simply, “I am.”"}, {"ko": "무언가를 만드는 것은 원초적인 욕구이다,", "tokens": ["Creating", "is", "a", "primal", "need,"], "id": 17, "answer": "Creating is a primal need,"}, {"ko": "하지만 창조하라는 제도적 지시가 없으면,", "tokens": ["but", "without", "an", "institutional", "directive", "to", "create,"], "id": 18, "answer": "but without an institutional directive to create,"}, {"ko": "그 일을 하고자 하는 내면의 불꽃은 깜빡이다가 꺼질 수 있다,", "tokens": ["the", "internal", "fire", "to", "do", "so", "can", "flicker", "and", "die,"], "id": 19, "answer": "the internal fire to do so can flicker and die,"}, {"ko": "또는 더 나쁘게도, 우리는 믿기 시작할지도 모른다", "tokens": ["or", "worse", "yet,", "we", "may", "start", "to", "believe"], "id": 20, "answer": "or worse yet, we may start to believe"}, {"ko": "무언가를 만드는 것은 특정 유형의 사람들만을 위한 것이라고,", "tokens": ["that", "making", "things", "is", "only", "for", "certain", "types", "of", "people,"], "id": 21, "answer": "that making things is only for certain types of people,"}, {"ko": "우리를 위한 것이 아니라고.", "tokens": ["not", "for", "us."], "id": 22, "answer": "not for us."}];
+const quiz=document.getElementById('quiz'), score=document.getElementById('score'), bar=document.getElementById('bar');
+let dragged=null;
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function norm(a){return a.join(' ').trim().replace(/\s+/g,' ')}
+function chip(t){let s=document.createElement('span');s.className='chip';s.draggable=true;s.textContent=t;s.dataset.t=t;
+s.ondragstart=e=>{dragged=s;s.classList.add('dragging');e.dataTransfer.effectAllowed='move'};
+s.ondragend=()=>{s.classList.remove('dragging');dragged=null;document.querySelectorAll('.over').forEach(x=>x.classList.remove('over'))};
+s.ondblclick=()=>{let c=s.closest('.card'), z=c.querySelector('.zone'), b=c.querySelector('.bank');(s.parentElement===b?z:b).appendChild(s);clear(c);update()};
+return s}
+function setupDrop(el){el.ondragover=e=>{e.preventDefault();el.classList.add('over');let before=getBefore(el,e.clientX,e.clientY);if(dragged){before?el.insertBefore(dragged,before):el.appendChild(dragged)}};
+el.ondragleave=()=>el.classList.remove('over');el.ondrop=e=>{e.preventDefault();el.classList.remove('over');let c=el.closest('.card');clear(c);update()}}
+function getBefore(container,x,y){let els=[...container.querySelectorAll('.chip:not(.dragging)')];let best=null,bestOffset=-Infinity;for(const child of els){let r=child.getBoundingClientRect();let off=Math.abs(y-(r.top+r.height/2))<r.height?x-(r.left+r.width/2):y-(r.top+r.height/2);if(off<0&&off>bestOffset){bestOffset=off;best=child}}return best}
+function render(){quiz.innerHTML='';Q.forEach(q=>{let c=document.createElement('article');c.className='card';c.dataset.id=q.id;c.innerHTML=`<div class="head"><div class="num">${q.id}</div><div class="ko">${q.ko}</div><div class="status">미완성</div></div><div class="zone"></div><div class="bank"></div><div class="actions"><div><button class="one">채점</button> <button class="reset">초기화</button></div><button class="showbtn">정답 보기</button></div><div class="ans"><b>정답:</b> ${q.answer}</div>`;
+let z=c.querySelector('.zone'), b=c.querySelector('.bank');setupDrop(z);setupDrop(b);shuffle(q.tokens).forEach(t=>b.appendChild(chip(t)));
+c.querySelector('.one').onclick=()=>check(c);c.querySelector('.reset').onclick=()=>reset(c);c.querySelector('.showbtn').onclick=()=>c.querySelector('.ans').classList.toggle('show');quiz.appendChild(c)});update()}
+function q(c){return Q.find(x=>x.id==c.dataset.id)}function toks(c){return [...c.querySelectorAll('.zone .chip')].map(x=>x.dataset.t)}
+function clear(c){c.classList.remove('correct','wrong');let n=toks(c).length,total=q(c).tokens.length;c.querySelector('.status').textContent=n?`${n} / ${total}`:'미완성'}
+function check(c){c.classList.remove('correct','wrong');let ok=norm(toks(c))===norm(q(c).tokens);c.classList.add(ok?'correct':'wrong');c.querySelector('.status').textContent=ok?'정답':'오답';update()}
+function reset(c){let qq=q(c),z=c.querySelector('.zone'),b=c.querySelector('.bank');z.innerHTML='';b.innerHTML='';shuffle(qq.tokens).forEach(t=>b.appendChild(chip(t)));c.querySelector('.ans').classList.remove('show');clear(c);update()}
+function update(){let n=[...document.querySelectorAll('.card')].filter(c=>norm(toks(c))===norm(q(c).tokens)).length;score.textContent=`${n} / ${Q.length}`;bar.style.width=(n/Q.length*100)+'%'}
+function checkAll(){document.querySelectorAll('.card').forEach(check);scrollTo({top:0,behavior:'smooth'})}
+function showAll(){document.querySelectorAll('.ans').forEach(a=>a.classList.add('show'))}
+function hideAll(){document.querySelectorAll('.ans').forEach(a=>a.classList.remove('show'))}
+function resetAll(){document.querySelectorAll('.card').forEach(reset);scrollTo({top:0,behavior:'smooth'})}
+render();
+</script>
+</body></html>

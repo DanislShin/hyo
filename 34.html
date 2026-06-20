@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>34번 consequences 문장 배열 드래그 퀴즈</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fffaf2;
+      --ink: #1f2933;
+      --muted: #64748b;
+      --line: #dfd3c3;
+      --accent: #7c4a28;
+      --accent2: #d7a33d;
+      --good: #15803d;
+      --bad: #b91c1c;
+      --soft-good: #dcfce7;
+      --soft-bad: #fee2e2;
+      --chip: #ffffff;
+      --shadow: 0 12px 30px rgba(45, 35, 20, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(215, 163, 61, 0.2), transparent 30rem),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); border-color: #c5b39e; }
+    button:active { transform: translateY(0); }
+
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    button.gold {
+      background: #fff8e6;
+      border-color: #edca73;
+      color: #6b460b;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 8px 18px 40px;
+    }
+
+    .progress-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0 18px;
+    }
+
+    .progress {
+      height: 12px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .25s ease;
+    }
+
+    .score {
+      font-weight: 900;
+      color: #5b3a1a;
+      white-space: nowrap;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255, 250, 242, .94);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #efe0ca;
+      color: #5b3a1a;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .ko {
+      flex: 1;
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .status {
+      min-width: 86px;
+      text-align: right;
+      font-weight: 850;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .answer-zone,
+    .word-bank {
+      min-height: 64px;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      transition: background .12s ease, border-color .12s ease;
+    }
+
+    .answer-zone {
+      background: #fff;
+      border: 2px dashed #cbbba7;
+      margin-bottom: 10px;
+    }
+
+    .answer-zone.drag-over,
+    .word-bank.drag-over {
+      background: #fff6d8;
+      border-color: var(--accent2);
+    }
+
+    .word-bank {
+      background: rgba(255,255,255,.52);
+      border: 1px solid var(--line);
+    }
+
+    .chip {
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid #d6c8b7;
+      font-size: 16px;
+      font-weight: 850;
+      box-shadow: 0 3px 8px rgba(0,0,0,.06);
+      cursor: grab;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    }
+
+    .chip:active { cursor: grabbing; }
+
+    .chip.dragging {
+      opacity: .38;
+      transform: scale(.96);
+      box-shadow: none;
+    }
+
+    .ghost-chip {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: .96;
+      box-shadow: 0 18px 35px rgba(0,0,0,.22);
+    }
+
+    .placeholder {
+      min-width: 38px;
+      min-height: 38px;
+      border-radius: 999px;
+      border: 2px dashed #b99b73;
+      background: rgba(217, 164, 65, .12);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .left-actions,
+    .right-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .answer-text {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f8ead4;
+      color: #513414;
+      line-height: 1.55;
+      font-weight: 750;
+    }
+
+    .answer-text.show { display: block; }
+
+    .card.correct .answer-zone {
+      border-color: #22c55e;
+      background: var(--soft-good);
+    }
+
+    .card.wrong .answer-zone {
+      border-color: #ef4444;
+      background: var(--soft-bad);
+    }
+
+    .card.correct .status { color: var(--good); }
+    .card.wrong .status { color: var(--bad); }
+
+    .final-box {
+      margin-top: 24px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.05);
+    }
+
+    .final-box h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .final-box p {
+      margin: 8px 0;
+      line-height: 1.75;
+      color: #374151;
+      font-size: 15px;
+    }
+
+    .choice {
+      display: grid;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .correct-choice {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #dcfce7;
+      color: #14532d;
+      font-weight: 900;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 680px) {
+      header, main { padding-left: 12px; padding-right: 12px; }
+      .card { padding: 14px; border-radius: 18px; }
+      .card-head { flex-direction: column; }
+      .status { text-align: left; }
+      .ko { font-size: 16px; }
+      .chip { font-size: 15px; min-height: 36px; padding: 7px 10px; }
+      .progress-wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>34번 consequences 문장 배열 드래그 퀴즈</h1>
+    <p class="subtitle">
+      한글 해석을 보고 아래 단어 카드를 <b>정답 칸으로 드래그</b>해서 영어 문장을 완성하세요.
+      문장이 길어서 의미 단위로 잘라 두었습니다.
+    </p>
+    <div class="toolbar">
+      <button class="primary" id="checkAllBtn">전체 채점</button>
+      <button class="gold" id="showAllBtn">전체 정답 보기</button>
+      <button id="hideAllBtn">정답 숨기기</button>
+      <button id="resetAllBtn">전체 초기화</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="progress-wrap">
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="score" id="score">0 / 21</div>
+    </div>
+
+    <section class="quiz" id="quiz"></section>
+
+    <section class="final-box">
+      <h2>빈칸 정답 연결</h2>
+      <p>
+        글의 핵심은 인간이 <b>행동의 결과</b>를 보고 그 행동을 계속하거나 멈추면서
+        환경에 적응한다는 내용입니다.
+      </p>
+      <p class="correct-choice">
+        정답: ① changing behaviors in light of the consequences<br>
+        → 결과에 비추어 행동을 바꾸는 것
+      </p>
+      <div class="choice">
+        <div><b>① changing behaviors in light of the consequences</b></div>
+        <div>② quitting things even after receiving the benefits</div>
+        <div>③ facing new challenges in spite of all the difficulties</div>
+        <div>④ doing exercises regardless of the possible outcomes</div>
+        <div>⑤ taking risks with the expectation of the financial profits</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+  {
+    "ko": "인간이 적응하고 조정하는 특히 강력한 방식은",
+    "tokens": [
+      "A",
+      "particularly",
+      "powerful",
+      "way"
+    ],
+    "id": 1,
+    "answer": "A particularly powerful way"
+  },
+  {
+    "ko": "인간이 자신의 환경에 적응하고 맞춰 가는",
+    "tokens": [
+      "in",
+      "which",
+      "human",
+      "beings",
+      "adapt",
+      "and",
+      "adjust"
+    ],
+    "id": 2,
+    "answer": "in which human beings adapt and adjust"
+  },
+  {
+    "ko": "자신들의 상황에",
+    "tokens": [
+      "to",
+      "their",
+      "circumstances"
+    ],
+    "id": 3,
+    "answer": "to their circumstances"
+  },
+  {
+    "ko": "행동을 바꾸는 것이다",
+    "tokens": [
+      "is",
+      "by",
+      "changing",
+      "behaviors"
+    ],
+    "id": 4,
+    "answer": "is by changing behaviors"
+  },
+  {
+    "ko": "그 행동들이 낳는 결과에 비추어서.",
+    "tokens": [
+      "in",
+      "light",
+      "of",
+      "the",
+      "consequences",
+      "that",
+      "they",
+      "yield."
+    ],
+    "id": 5,
+    "answer": "in light of the consequences that they yield."
+  },
+  {
+    "ko": "예를 들어, 한 아이가",
+    "tokens": [
+      "For",
+      "instance,",
+      "a",
+      "child"
+    ],
+    "id": 6,
+    "answer": "For instance, a child"
+  },
+  {
+    "ko": "운동 문제를 정확히 했다고 선생님에게 칭찬을 받으면",
+    "tokens": [
+      "who",
+      "gets",
+      "praised",
+      "by",
+      "her",
+      "teacher",
+      "for",
+      "doing",
+      "an",
+      "exercise",
+      "correctly"
+    ],
+    "id": 7,
+    "answer": "who gets praised by her teacher for doing an exercise correctly"
+  },
+  {
+    "ko": "그 방식으로 그 운동을 계속할 가능성이 높다.",
+    "tokens": [
+      "is",
+      "likely",
+      "to",
+      "continue",
+      "doing",
+      "the",
+      "exercise",
+      "in",
+      "that",
+      "way."
+    ],
+    "id": 8,
+    "answer": "is likely to continue doing the exercise in that way."
+  },
+  {
+    "ko": "한 무용수가 느끼기에",
+    "tokens": [
+      "A",
+      "dancer",
+      "who",
+      "feels"
+    ],
+    "id": 9,
+    "answer": "A dancer who feels"
+  },
+  {
+    "ko": "특정한 컨디셔닝 운동이 어떤 결과도 내지 못하고 있다면",
+    "tokens": [
+      "that",
+      "a",
+      "particular",
+      "conditioning",
+      "exercise",
+      "is",
+      "not",
+      "giving",
+      "any",
+      "results"
+    ],
+    "id": 10,
+    "answer": "that a particular conditioning exercise is not giving any results"
+  },
+  {
+    "ko": "그 운동을 포기할 가능성이 높다",
+    "tokens": [
+      "is",
+      "likely",
+      "to",
+      "give",
+      "that",
+      "exercise",
+      "up"
+    ],
+    "id": 11,
+    "answer": "is likely to give that exercise up"
+  },
+  {
+    "ko": "더 유망해 보이는 다른 운동을 선택해서.",
+    "tokens": [
+      "in",
+      "favor",
+      "of",
+      "another",
+      "one",
+      "that",
+      "seems",
+      "more",
+      "promising."
+    ],
+    "id": 12,
+    "answer": "in favor of another one that seems more promising."
+  },
+  {
+    "ko": "일반적으로, 우리는 무언가를 하는 경향이 있다",
+    "tokens": [
+      "In",
+      "general,",
+      "we",
+      "tend",
+      "to",
+      "do",
+      "things"
+    ],
+    "id": 13,
+    "answer": "In general, we tend to do things"
+  },
+  {
+    "ko": "우리에게 어떤 종류의 이익을 가져다주는 것들을",
+    "tokens": [
+      "that",
+      "bring",
+      "us",
+      "some",
+      "kind",
+      "of",
+      "benefit"
+    ],
+    "id": 14,
+    "answer": "that bring us some kind of benefit"
+  },
+  {
+    "ko": "또는 어떤 방식으로 행동하는 경향이 있다",
+    "tokens": [
+      "or",
+      "act",
+      "in",
+      "ways"
+    ],
+    "id": 15,
+    "answer": "or act in ways"
+  },
+  {
+    "ko": "어떤 종류의 문제, 불편함, 또는 불이익을 피하도록 도와주는.",
+    "tokens": [
+      "that",
+      "help",
+      "us",
+      "avoid",
+      "some",
+      "kind",
+      "of",
+      "problem,",
+      "discomfort,",
+      "or",
+      "disadvantage."
+    ],
+    "id": 16,
+    "answer": "that help us avoid some kind of problem, discomfort, or disadvantage."
+  },
+  {
+    "ko": "우리는 또한 더 적은 일을 하는 경향이 있다",
+    "tokens": [
+      "We",
+      "also",
+      "tend",
+      "to",
+      "do",
+      "fewer",
+      "things"
+    ],
+    "id": 17,
+    "answer": "We also tend to do fewer things"
+  },
+  {
+    "ko": "또는 일을 그만두는 경향이 있다",
+    "tokens": [
+      "or",
+      "stop",
+      "doing",
+      "things"
+    ],
+    "id": 18,
+    "answer": "or stop doing things"
+  },
+  {
+    "ko": "문제, 불편함, 또는 불이익으로 이어지는 것들을",
+    "tokens": [
+      "that",
+      "lead",
+      "to",
+      "problems,",
+      "discomfort,",
+      "or",
+      "disadvantages,"
+    ],
+    "id": 19,
+    "answer": "that lead to problems, discomfort, or disadvantages,"
+  },
+  {
+    "ko": "그리고 우리는 어떤 방식으로 행동하는 것을 피하는 경향이 있다",
+    "tokens": [
+      "and",
+      "we",
+      "tend",
+      "to",
+      "avoid",
+      "acting",
+      "in",
+      "ways"
+    ],
+    "id": 20,
+    "answer": "and we tend to avoid acting in ways"
+  },
+  {
+    "ko": "어떤 이익이나 보상도 가져오지 않는.",
+    "tokens": [
+      "that",
+      "do",
+      "not",
+      "bring",
+      "any",
+      "benefit",
+      "or",
+      "reward."
+    ],
+    "id": 21,
+    "answer": "that do not bring any benefit or reward."
+  }
+];
+
+    const quiz = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const barEl = document.getElementById("bar");
+
+    let dragState = null;
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function createChip(text) {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = text;
+      chip.dataset.token = text;
+      chip.tabIndex = 0;
+      chip.addEventListener("pointerdown", startDrag);
+      chip.addEventListener("dblclick", () => {
+        const card = chip.closest(".card");
+        const answerZone = card.querySelector(".answer-zone");
+        const bank = card.querySelector(".word-bank");
+        if (chip.parentElement === bank) {
+          answerZone.appendChild(chip);
+        } else {
+          bank.appendChild(chip);
+        }
+        clearCardResult(card);
+        updateProgress();
+      });
+      return chip;
+    }
+
+    function render() {
+      quiz.innerHTML = "";
+      QUESTIONS.forEach(q => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = q.id;
+
+        const head = document.createElement("div");
+        head.className = "card-head";
+        head.innerHTML = `
+          <div class="num">${q.id}</div>
+          <div class="ko">${q.ko}</div>
+          <div class="status">미완성</div>
+        `;
+
+        const answerZone = document.createElement("div");
+        answerZone.className = "answer-zone";
+        answerZone.dataset.role = "answer";
+
+        const wordBank = document.createElement("div");
+        wordBank.className = "word-bank";
+        wordBank.dataset.role = "bank";
+
+        shuffle(q.tokens).forEach(t => wordBank.appendChild(createChip(t)));
+
+        const hint = document.createElement("div");
+        hint.className = "hint";
+        hint.textContent = "팁: 단어를 더블클릭하면 정답 칸/단어 칸 사이를 빠르게 이동합니다.";
+
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
+        actions.innerHTML = `
+          <div class="left-actions">
+            <button type="button" class="check-one">채점</button>
+            <button type="button" class="reset-one">초기화</button>
+          </div>
+          <div class="right-actions">
+            <button type="button" class="show-one">정답 보기</button>
+          </div>
+        `;
+
+        const answerText = document.createElement("div");
+        answerText.className = "answer-text";
+        answerText.innerHTML = `<b>정답:</b> ${q.answer}`;
+
+        card.appendChild(head);
+        card.appendChild(answerZone);
+        card.appendChild(wordBank);
+        card.appendChild(hint);
+        card.appendChild(actions);
+        card.appendChild(answerText);
+
+        card.querySelector(".check-one").addEventListener("click", () => checkCard(card));
+        card.querySelector(".reset-one").addEventListener("click", () => resetCard(card, q));
+        card.querySelector(".show-one").addEventListener("click", () => answerText.classList.toggle("show"));
+
+        quiz.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    function normalizeTokens(tokens) {
+      return tokens.join(" ").trim().replace(/\s+/g, " ");
+    }
+
+    function getQuestion(card) {
+      return QUESTIONS.find(q => q.id === Number(card.dataset.id));
+    }
+
+    function getAnswerTokens(card) {
+      return [...card.querySelector(".answer-zone").querySelectorAll(".chip")]
+        .map(chip => chip.dataset.token);
+    }
+
+    function clearCardResult(card) {
+      card.classList.remove("correct", "wrong");
+      const status = card.querySelector(".status");
+      const answerCount = getAnswerTokens(card).length;
+      const total = getQuestion(card).tokens.length;
+      status.textContent = answerCount === 0 ? "미완성" : `${answerCount} / ${total}`;
+      status.style.color = "";
+    }
+
+    function checkCard(card) {
+      const q = getQuestion(card);
+      const current = normalizeTokens(getAnswerTokens(card));
+      const answer = normalizeTokens(q.tokens);
+      const status = card.querySelector(".status");
+
+      card.classList.remove("correct", "wrong");
+
+      if (current === answer) {
+        card.classList.add("correct");
+        status.textContent = "정답";
+      } else {
+        card.classList.add("wrong");
+        status.textContent = "오답";
+      }
+      updateProgress();
+    }
+
+    function resetCard(card, q) {
+      const answerZone = card.querySelector(".answer-zone");
+      const wordBank = card.querySelector(".word-bank");
+      answerZone.innerHTML = "";
+      wordBank.innerHTML = "";
+      shuffle(q.tokens).forEach(t => wordBank.appendChild(createChip(t)));
+      card.querySelector(".answer-text").classList.remove("show");
+      clearCardResult(card);
+      updateProgress();
+    }
+
+    function checkAll() {
+      document.querySelectorAll(".card").forEach(checkCard);
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showAllAnswers() {
+      document.querySelectorAll(".answer-text").forEach(el => el.classList.add("show"));
+    }
+
+    function hideAllAnswers() {
+      document.querySelectorAll(".answer-text").forEach(el => el.classList.remove("show"));
+    }
+
+    function resetAll() {
+      document.querySelectorAll(".card").forEach(card => resetCard(card, getQuestion(card)));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateProgress() {
+      let correct = 0;
+      document.querySelectorAll(".card").forEach(card => {
+        const q = getQuestion(card);
+        const current = normalizeTokens(getAnswerTokens(card));
+        if (current === normalizeTokens(q.tokens)) correct++;
+      });
+      scoreEl.textContent = `${correct} / ${QUESTIONS.length}`;
+      barEl.style.width = `${Math.round((correct / QUESTIONS.length) * 100)}%`;
+    }
+
+    function startDrag(e) {
+      if (e.button !== undefined && e.button !== 0) return;
+
+      const chip = e.currentTarget;
+      const card = chip.closest(".card");
+      const sourceContainer = chip.parentElement;
+
+      chip.setPointerCapture?.(e.pointerId);
+      chip.classList.add("dragging");
+
+      const ghost = chip.cloneNode(true);
+      ghost.classList.add("ghost-chip");
+      ghost.style.width = chip.getBoundingClientRect().width + "px";
+      document.body.appendChild(ghost);
+
+      const placeholder = document.createElement("span");
+      placeholder.className = "placeholder";
+      placeholder.style.width = chip.getBoundingClientRect().width + "px";
+
+      dragState = {
+        chip,
+        ghost,
+        placeholder,
+        card,
+        sourceContainer,
+        pointerId: e.pointerId,
+        currentContainer: sourceContainer
+      };
+
+      moveGhost(e.clientX, e.clientY);
+
+      document.addEventListener("pointermove", onDragMove);
+      document.addEventListener("pointerup", endDrag);
+      document.addEventListener("pointercancel", endDrag);
+    }
+
+    function moveGhost(x, y) {
+      if (!dragState) return;
+      dragState.ghost.style.left = x + "px";
+      dragState.ghost.style.top = y + "px";
+    }
+
+    function findDropContainer(x, y) {
+      if (!dragState) return null;
+      const containers = [
+        dragState.card.querySelector(".answer-zone"),
+        dragState.card.querySelector(".word-bank")
+      ];
+
+      return containers.find(c => {
+        const r = c.getBoundingClientRect();
+        return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+      });
+    }
+
+    function getInsertBefore(container, x, y) {
+      const chips = [...container.querySelectorAll(".chip:not(.dragging)")];
+      let closest = { offset: Number.NEGATIVE_INFINITY, element: null };
+
+      for (const child of chips) {
+        const box = child.getBoundingClientRect();
+        const yOffset = y - box.top - box.height / 2;
+        const xOffset = x - box.left - box.width / 2;
+        const offset = Math.abs(yOffset) < box.height ? xOffset : yOffset;
+
+        if (offset < 0 && offset > closest.offset) {
+          closest = { offset, element: child };
+        }
+      }
+      return closest.element;
+    }
+
+    function onDragMove(e) {
+      if (!dragState) return;
+      e.preventDefault();
+      moveGhost(e.clientX, e.clientY);
+
+      const container = findDropContainer(e.clientX, e.clientY);
+      document.querySelectorAll(".answer-zone, .word-bank").forEach(el => el.classList.remove("drag-over"));
+
+      if (container) {
+        container.classList.add("drag-over");
+        const before = getInsertBefore(container, e.clientX, e.clientY);
+        if (before) {
+          container.insertBefore(dragState.placeholder, before);
+        } else {
+          container.appendChild(dragState.placeholder);
+        }
+        dragState.currentContainer = container;
+      }
+    }
+
+    function endDrag(e) {
+      if (!dragState) return;
+
+      const { chip, ghost, placeholder, sourceContainer, card } = dragState;
+      const container = placeholder.parentElement || findDropContainer(e.clientX, e.clientY) || sourceContainer;
+
+      if (placeholder.parentElement) {
+        placeholder.replaceWith(chip);
+      } else {
+        container.appendChild(chip);
+      }
+
+      chip.classList.remove("dragging");
+      ghost.remove();
+      placeholder.remove?.();
+
+      document.querySelectorAll(".answer-zone, .word-bank").forEach(el => el.classList.remove("drag-over"));
+
+      clearCardResult(card);
+      updateProgress();
+
+      document.removeEventListener("pointermove", onDragMove);
+      document.removeEventListener("pointerup", endDrag);
+      document.removeEventListener("pointercancel", endDrag);
+
+      dragState = null;
+    }
+
+    document.getElementById("checkAllBtn").addEventListener("click", checkAll);
+    document.getElementById("showAllBtn").addEventListener("click", showAllAnswers);
+    document.getElementById("hideAllBtn").addEventListener("click", hideAllAnswers);
+    document.getElementById("resetAllBtn").addEventListener("click", resetAll);
+
+    render();
+  </script>
+</body>
+</html>

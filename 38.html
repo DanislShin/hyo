@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>38번 gesture memory 문장 배열 드래그 퀴즈</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fffaf2;
+      --ink: #1f2933;
+      --muted: #64748b;
+      --line: #dfd3c3;
+      --accent: #7c4a28;
+      --accent2: #d7a33d;
+      --good: #15803d;
+      --bad: #b91c1c;
+      --soft-good: #dcfce7;
+      --soft-bad: #fee2e2;
+      --chip: #ffffff;
+      --shadow: 0 12px 30px rgba(45, 35, 20, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(215, 163, 61, 0.2), transparent 30rem),
+        linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); border-color: #c5b39e; }
+    button:active { transform: translateY(0); }
+
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    button.gold {
+      background: #fff8e6;
+      border-color: #edca73;
+      color: #6b460b;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 8px 18px 40px;
+    }
+
+    .progress-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0 18px;
+    }
+
+    .progress {
+      height: 12px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .25s ease;
+    }
+
+    .score {
+      font-weight: 900;
+      color: #5b3a1a;
+      white-space: nowrap;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255, 250, 242, .94);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #efe0ca;
+      color: #5b3a1a;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .ko {
+      flex: 1;
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .status {
+      min-width: 86px;
+      text-align: right;
+      font-weight: 850;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .answer-zone,
+    .word-bank {
+      min-height: 64px;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      transition: background .12s ease, border-color .12s ease;
+    }
+
+    .answer-zone {
+      background: #fff;
+      border: 2px dashed #cbbba7;
+      margin-bottom: 10px;
+    }
+
+    .answer-zone.drag-over,
+    .word-bank.drag-over {
+      background: #fff6d8;
+      border-color: var(--accent2);
+    }
+
+    .word-bank {
+      background: rgba(255,255,255,.52);
+      border: 1px solid var(--line);
+    }
+
+    .chip {
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid #d6c8b7;
+      font-size: 16px;
+      font-weight: 850;
+      box-shadow: 0 3px 8px rgba(0,0,0,.06);
+      cursor: grab;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    }
+
+    .chip:active { cursor: grabbing; }
+
+    .chip.dragging {
+      opacity: .38;
+      transform: scale(.96);
+      box-shadow: none;
+    }
+
+    .ghost-chip {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: .96;
+      box-shadow: 0 18px 35px rgba(0,0,0,.22);
+    }
+
+    .placeholder {
+      min-width: 38px;
+      min-height: 38px;
+      border-radius: 999px;
+      border: 2px dashed #b99b73;
+      background: rgba(217, 164, 65, .12);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .left-actions,
+    .right-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .answer-text {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f8ead4;
+      color: #513414;
+      line-height: 1.55;
+      font-weight: 750;
+    }
+
+    .answer-text.show { display: block; }
+
+    .card.correct .answer-zone {
+      border-color: #22c55e;
+      background: var(--soft-good);
+    }
+
+    .card.wrong .answer-zone {
+      border-color: #ef4444;
+      background: var(--soft-bad);
+    }
+
+    .card.correct .status { color: var(--good); }
+    .card.wrong .status { color: var(--bad); }
+
+    .final-box {
+      margin-top: 24px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.05);
+    }
+
+    .final-box h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .final-box p {
+      margin: 8px 0;
+      line-height: 1.75;
+      color: #374151;
+      font-size: 15px;
+    }
+
+    .correct-choice {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #dcfce7;
+      color: #14532d;
+      font-weight: 900;
+    }
+
+    .quote-box {
+      padding: 12px 14px;
+      border-left: 5px solid var(--accent2);
+      background: #fff8e6;
+      border-radius: 12px;
+      font-weight: 800;
+      line-height: 1.65;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 680px) {
+      header, main { padding-left: 12px; padding-right: 12px; }
+      .card { padding: 14px; border-radius: 18px; }
+      .card-head { flex-direction: column; }
+      .status { text-align: left; }
+      .ko { font-size: 16px; }
+      .chip { font-size: 15px; min-height: 36px; padding: 7px 10px; }
+      .progress-wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>38번 gesture memory 문장 배열 드래그 퀴즈</h1>
+    <p class="subtitle">
+      한글 해석을 보고 아래 단어 카드를 <b>정답 칸으로 드래그</b>해서 영어 문장을 완성하세요.
+      문장이 길어서 의미 단위로 잘라 두었습니다.
+    </p>
+    <div class="toolbar">
+      <button class="primary" id="checkAllBtn">전체 채점</button>
+      <button class="gold" id="showAllBtn">전체 정답 보기</button>
+      <button id="hideAllBtn">정답 숨기기</button>
+      <button id="resetAllBtn">전체 초기화</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="progress-wrap">
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="score" id="score">0 / 21</div>
+    </div>
+
+    <section class="quiz" id="quiz"></section>
+
+    <section class="final-box">
+      <h2>주어진 문장 삽입 위치</h2>
+      <p class="quote-box">
+        Adults who were told to gesture while describing the events remembered more than adults who were told not to gesture, particularly several weeks later.
+      </p>
+      <p>
+        이 문장은 <b>첫 번째 실험의 결과</b>입니다. 앞에서는 성인들에게 영상을 보게 하고 기억을 시험했다고 했고,
+        뒤에서는 “같은 효과가 나오는지 보기 위해 다시 연구했다”라고 하므로, 첫 번째 실험 결과가 그 사이에 들어가야 합니다.
+      </p>
+      <p class="correct-choice">
+        정답: ③
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+  {
+    "ko": "어떤 사건을 묘사하면서 몸짓을 한다면,",
+    "tokens": [
+      "If",
+      "you",
+      "gesture",
+      "while",
+      "describing",
+      "an",
+      "event,"
+    ],
+    "id": 1,
+    "answer": "If you gesture while describing an event,"
+  },
+  {
+    "ko": "그 사건을 기억해 낼 수 있을 것이라고 생각하는가?",
+    "tokens": [
+      "do",
+      "you",
+      "think",
+      "you’ll",
+      "be",
+      "able",
+      "to",
+      "recall",
+      "that",
+      "event"
+    ],
+    "id": 2,
+    "answer": "do you think you’ll be able to recall that event"
+  },
+  {
+    "ko": "몸짓을 하지 않을 때보다 더 잘?",
+    "tokens": [
+      "better",
+      "than",
+      "if",
+      "you",
+      "don’t",
+      "gesture?"
+    ],
+    "id": 3,
+    "answer": "better than if you don’t gesture?"
+  },
+  {
+    "ko": "우리는 성인들에게 장난감 물체들의 영상을 보게 했다,",
+    "tokens": [
+      "We",
+      "had",
+      "adults",
+      "watch",
+      "videos",
+      "of",
+      "toy",
+      "objects,"
+    ],
+    "id": 4,
+    "answer": "We had adults watch videos of toy objects,"
+  },
+  {
+    "ko": "동물과 사람들이 다양하고, 때로는 이상한 행동을 하는 영상을.",
+    "tokens": [
+      "animals,",
+      "and",
+      "people",
+      "performing",
+      "various,",
+      "sometimes",
+      "odd,",
+      "actions:"
+    ],
+    "id": 5,
+    "answer": "animals, and people performing various, sometimes odd, actions:"
+  },
+  {
+    "ko": "닭 한 마리가 경찰관 쪽으로 미끄러져 가고,",
+    "tokens": [
+      "a",
+      "chicken",
+      "sliding",
+      "to",
+      "a",
+      "policeman,"
+    ],
+    "id": 6,
+    "answer": "a chicken sliding to a policeman,"
+  },
+  {
+    "ko": "조깅하는 사람이 몸을 굽혀 발가락을 만지고,",
+    "tokens": [
+      "a",
+      "jogger",
+      "bending",
+      "down",
+      "to",
+      "touch",
+      "his",
+      "toes,"
+    ],
+    "id": 7,
+    "answer": "a jogger bending down to touch his toes,"
+  },
+  {
+    "ko": "울타리가 저절로 닫히는 장면이었다.",
+    "tokens": [
+      "a",
+      "fence",
+      "swinging",
+      "shut",
+      "on",
+      "its",
+      "own."
+    ],
+    "id": 8,
+    "answer": "a fence swinging shut on its own."
+  },
+  {
+    "ko": "그런 다음 우리는 이 사건들에 대한 성인들의 기억을 시험했다",
+    "tokens": [
+      "We",
+      "then",
+      "tested",
+      "the",
+      "adults’",
+      "memories",
+      "of",
+      "these",
+      "events"
+    ],
+    "id": 9,
+    "answer": "We then tested the adults’ memories of these events"
+  },
+  {
+    "ko": "묘사 직후와 3주 후에.",
+    "tokens": [
+      "immediately",
+      "after",
+      "the",
+      "descriptions",
+      "and",
+      "three",
+      "weeks",
+      "later."
+    ],
+    "id": 10,
+    "answer": "immediately after the descriptions and three weeks later."
+  },
+  {
+    "ko": "사건을 묘사하는 동안 몸짓을 하라고 지시받은 성인들은",
+    "tokens": [
+      "Adults",
+      "who",
+      "were",
+      "told",
+      "to",
+      "gesture",
+      "while",
+      "describing",
+      "the",
+      "events"
+    ],
+    "id": 11,
+    "answer": "Adults who were told to gesture while describing the events"
+  },
+  {
+    "ko": "몸짓하지 말라고 지시받은 성인들보다 더 많이 기억했다,",
+    "tokens": [
+      "remembered",
+      "more",
+      "than",
+      "adults",
+      "who",
+      "were",
+      "told",
+      "not",
+      "to",
+      "gesture,"
+    ],
+    "id": 12,
+    "answer": "remembered more than adults who were told not to gesture,"
+  },
+  {
+    "ko": "특히 몇 주 후에.",
+    "tokens": [
+      "particularly",
+      "several",
+      "weeks",
+      "later."
+    ],
+    "id": 13,
+    "answer": "particularly several weeks later."
+  },
+  {
+    "ko": "사람들이 스스로 몸짓을 하면 같은 효과가 나타나는지 보기 위해,",
+    "tokens": [
+      "To",
+      "see",
+      "if",
+      "we’d",
+      "get",
+      "the",
+      "same",
+      "effects",
+      "if",
+      "people",
+      "gestured",
+      "on",
+      "their",
+      "own,"
+    ],
+    "id": 14,
+    "answer": "To see if we’d get the same effects if people gestured on their own,"
+  },
+  {
+    "ko": "우리는 그 연구를 다시 했다,",
+    "tokens": [
+      "we",
+      "did",
+      "the",
+      "study",
+      "again,"
+    ],
+    "id": 15,
+    "answer": "we did the study again,"
+  },
+  {
+    "ko": "하지만 이번에는 성인들에게 몸짓에 대한 지시를 전혀 주지 않았다.",
+    "tokens": [
+      "but",
+      "this",
+      "time",
+      "we",
+      "gave",
+      "the",
+      "adults",
+      "no",
+      "instructions",
+      "about",
+      "gesture."
+    ],
+    "id": 16,
+    "answer": "but this time we gave the adults no instructions about gesture."
+  },
+  {
+    "ko": "우리는 같은 패턴을 발견했다.",
+    "tokens": [
+      "We",
+      "found",
+      "the",
+      "same",
+      "patterns:"
+    ],
+    "id": 17,
+    "answer": "We found the same patterns:"
+  },
+  {
+    "ko": "사람들은 자신들이 자발적으로 몸짓했던 항목들을 더 잘 기억했다",
+    "tokens": [
+      "people",
+      "remembered",
+      "items",
+      "on",
+      "which",
+      "they",
+      "had",
+      "gestured",
+      "spontaneously",
+      "better"
+    ],
+    "id": 18,
+    "answer": "people remembered items on which they had gestured spontaneously better"
+  },
+  {
+    "ko": "자신들이 몸짓하지 않았던 항목들보다.",
+    "tokens": [
+      "than",
+      "items",
+      "on",
+      "which",
+      "they",
+      "had",
+      "not",
+      "gestured."
+    ],
+    "id": 19,
+    "answer": "than items on which they had not gestured."
+  },
+  {
+    "ko": "말과 함께 몸짓을 만들어 내는 것은",
+    "tokens": [
+      "Producing",
+      "gesture",
+      "along",
+      "with",
+      "speech"
+    ],
+    "id": 20,
+    "answer": "Producing gesture along with speech"
+  },
+  {
+    "ko": "그 말 속에 부호화된 정보를 기억에 남게 만든다.",
+    "tokens": [
+      "makes",
+      "the",
+      "information",
+      "encoded",
+      "in",
+      "that",
+      "speech",
+      "memorable."
+    ],
+    "id": 21,
+    "answer": "makes the information encoded in that speech memorable."
+  }
+];
+
+    const quiz = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const barEl = document.getElementById("bar");
+
+    let dragState = null;
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function createChip(text) {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = text;
+      chip.dataset.token = text;
+      chip.tabIndex = 0;
+      chip.addEventListener("pointerdown", startDrag);
+      chip.addEventListener("dblclick", () => {
+        const card = chip.closest(".card");
+        const answerZone = card.querySelector(".answer-zone");
+        const bank = card.querySelector(".word-bank");
+        if (chip.parentElement === bank) {
+          answerZone.appendChild(chip);
+        } else {
+          bank.appendChild(chip);
+        }
+        clearCardResult(card);
+        updateProgress();
+      });
+      return chip;
+    }
+
+    function render() {
+      quiz.innerHTML = "";
+      QUESTIONS.forEach(q => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = q.id;
+
+        const head = document.createElement("div");
+        head.className = "card-head";
+        head.innerHTML = `
+          <div class="num">${q.id}</div>
+          <div class="ko">${q.ko}</div>
+          <div class="status">미완성</div>
+        `;
+
+        const answerZone = document.createElement("div");
+        answerZone.className = "answer-zone";
+        answerZone.dataset.role = "answer";
+
+        const wordBank = document.createElement("div");
+        wordBank.className = "word-bank";
+        wordBank.dataset.role = "bank";
+
+        shuffle(q.tokens).forEach(t => wordBank.appendChild(createChip(t)));
+
+        const hint = document.createElement("div");
+        hint.className = "hint";
+        hint.textContent = "팁: 단어를 더블클릭하면 정답 칸/단어 칸 사이를 빠르게 이동합니다.";
+
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
+        actions.innerHTML = `
+          <div class="left-actions">
+            <button type="button" class="check-one">채점</button>
+            <button type="button" class="reset-one">초기화</button>
+          </div>
+          <div class="right-actions">
+            <button type="button" class="show-one">정답 보기</button>
+          </div>
+        `;
+
+        const answerText = document.createElement("div");
+        answerText.className = "answer-text";
+        answerText.innerHTML = `<b>정답:</b> ${q.answer}`;
+
+        card.appendChild(head);
+        card.appendChild(answerZone);
+        card.appendChild(wordBank);
+        card.appendChild(hint);
+        card.appendChild(actions);
+        card.appendChild(answerText);
+
+        card.querySelector(".check-one").addEventListener("click", () => checkCard(card));
+        card.querySelector(".reset-one").addEventListener("click", () => resetCard(card, q));
+        card.querySelector(".show-one").addEventListener("click", () => answerText.classList.toggle("show"));
+
+        quiz.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    function normalizeTokens(tokens) {
+      return tokens.join(" ").trim().replace(/\s+/g, " ");
+    }
+
+    function getQuestion(card) {
+      return QUESTIONS.find(q => q.id === Number(card.dataset.id));
+    }
+
+    function getAnswerTokens(card) {
+      return [...card.querySelector(".answer-zone").querySelectorAll(".chip")]
+        .map(chip => chip.dataset.token);
+    }
+
+    function clearCardResult(card) {
+      card.classList.remove("correct", "wrong");
+      const status = card.querySelector(".status");
+      const answerCount = getAnswerTokens(card).length;
+      const total = getQuestion(card).tokens.length;
+      status.textContent = answerCount === 0 ? "미완성" : `${answerCount} / ${total}`;
+      status.style.color = "";
+    }
+
+    function checkCard(card) {
+      const q = getQuestion(card);
+      const current = normalizeTokens(getAnswerTokens(card));
+      const answer = normalizeTokens(q.tokens);
+      const status = card.querySelector(".status");
+
+      card.classList.remove("correct", "wrong");
+
+      if (current === answer) {
+        card.classList.add("correct");
+        status.textContent = "정답";
+      } else {
+        card.classList.add("wrong");
+        status.textContent = "오답";
+      }
+      updateProgress();
+    }
+
+    function resetCard(card, q) {
+      const answerZone = card.querySelector(".answer-zone");
+      const wordBank = card.querySelector(".word-bank");
+      answerZone.innerHTML = "";
+      wordBank.innerHTML = "";
+      shuffle(q.tokens).forEach(t => wordBank.appendChild(createChip(t)));
+      card.querySelector(".answer-text").classList.remove("show");
+      clearCardResult(card);
+      updateProgress();
+    }
+
+    function checkAll() {
+      document.querySelectorAll(".card").forEach(checkCard);
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showAllAnswers() {
+      document.querySelectorAll(".answer-text").forEach(el => el.classList.add("show"));
+    }
+
+    function hideAllAnswers() {
+      document.querySelectorAll(".answer-text").forEach(el => el.classList.remove("show"));
+    }
+
+    function resetAll() {
+      document.querySelectorAll(".card").forEach(card => resetCard(card, getQuestion(card)));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateProgress() {
+      let correct = 0;
+      document.querySelectorAll(".card").forEach(card => {
+        const q = getQuestion(card);
+        const current = normalizeTokens(getAnswerTokens(card));
+        if (current === normalizeTokens(q.tokens)) correct++;
+      });
+      scoreEl.textContent = `${correct} / ${QUESTIONS.length}`;
+      barEl.style.width = `${Math.round((correct / QUESTIONS.length) * 100)}%`;
+    }
+
+    function startDrag(e) {
+      if (e.button !== undefined && e.button !== 0) return;
+
+      const chip = e.currentTarget;
+      const card = chip.closest(".card");
+      const sourceContainer = chip.parentElement;
+
+      chip.setPointerCapture?.(e.pointerId);
+      chip.classList.add("dragging");
+
+      const ghost = chip.cloneNode(true);
+      ghost.classList.add("ghost-chip");
+      ghost.style.width = chip.getBoundingClientRect().width + "px";
+      document.body.appendChild(ghost);
+
+      const placeholder = document.createElement("span");
+      placeholder.className = "placeholder";
+      placeholder.style.width = chip.getBoundingClientRect().width + "px";
+
+      dragState = {
+        chip,
+        ghost,
+        placeholder,
+        card,
+        sourceContainer,
+        pointerId: e.pointerId,
+        currentContainer: sourceContainer
+      };
+
+      moveGhost(e.clientX, e.clientY);
+
+      document.addEventListener("pointermove", onDragMove);
+      document.addEventListener("pointerup", endDrag);
+      document.addEventListener("pointercancel", endDrag);
+    }
+
+    function moveGhost(x, y) {
+      if (!dragState) return;
+      dragState.ghost.style.left = x + "px";
+      dragState.ghost.style.top = y + "px";
+    }
+
+    function findDropContainer(x, y) {
+      if (!dragState) return null;
+      const containers = [
+        dragState.card.querySelector(".answer-zone"),
+        dragState.card.querySelector(".word-bank")
+      ];
+
+      return containers.find(c => {
+        const r = c.getBoundingClientRect();
+        return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+      });
+    }
+
+    function getInsertBefore(container, x, y) {
+      const chips = [...container.querySelectorAll(".chip:not(.dragging)")];
+      let closest = { offset: Number.NEGATIVE_INFINITY, element: null };
+
+      for (const child of chips) {
+        const box = child.getBoundingClientRect();
+        const yOffset = y - box.top - box.height / 2;
+        const xOffset = x - box.left - box.width / 2;
+        const offset = Math.abs(yOffset) < box.height ? xOffset : yOffset;
+
+        if (offset < 0 && offset > closest.offset) {
+          closest = { offset, element: child };
+        }
+      }
+      return closest.element;
+    }
+
+    function onDragMove(e) {
+      if (!dragState) return;
+      e.preventDefault();
+      moveGhost(e.clientX, e.clientY);
+
+      const container = findDropContainer(e.clientX, e.clientY);
+      document.querySelectorAll(".answer-zone, .word-bank").forEach(el => el.classList.remove("drag-over"));
+
+      if (container) {
+        container.classList.add("drag-over");
+        const before = getInsertBefore(container, e.clientX, e.clientY);
+        if (before) {
+          container.insertBefore(dragState.placeholder, before);
+        } else {
+          container.appendChild(dragState.placeholder);
+        }
+        dragState.currentContainer = container;
+      }
+    }
+
+    function endDrag(e) {
+      if (!dragState) return;
+
+      const { chip, ghost, placeholder, sourceContainer, card } = dragState;
+      const container = placeholder.parentElement || findDropContainer(e.clientX, e.clientY) || sourceContainer;
+
+      if (placeholder.parentElement) {
+        placeholder.replaceWith(chip);
+      } else {
+        container.appendChild(chip);
+      }
+
+      chip.classList.remove("dragging");
+      ghost.remove();
+      placeholder.remove?.();
+
+      document.querySelectorAll(".answer-zone, .word-bank").forEach(el => el.classList.remove("drag-over"));
+
+      clearCardResult(card);
+      updateProgress();
+
+      document.removeEventListener("pointermove", onDragMove);
+      document.removeEventListener("pointerup", endDrag);
+      document.removeEventListener("pointercancel", endDrag);
+
+      dragState = null;
+    }
+
+    document.getElementById("checkAllBtn").addEventListener("click", checkAll);
+    document.getElementById("showAllBtn").addEventListener("click", showAllAnswers);
+    document.getElementById("hideAllBtn").addEventListener("click", hideAllAnswers);
+    document.getElementById("resetAllBtn").addEventListener("click", resetAll);
+
+    render();
+  </script>
+</body>
+</html>

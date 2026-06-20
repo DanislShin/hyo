@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Speech Assignment 본문 & 한글 해석</title>
+<style>
+:root{
+  --bg:#f6f1e8;--paper:#fffaf2;--ink:#172033;--muted:#667085;--line:#dfd3c3;
+  --accent:#7c4a28;--gold:#d7a33d;--soft:#fff6d8;--green:#14532d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fbf7ef,#f3ecdf);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}
+header{background:radial-gradient(circle at 15% 0%,rgba(215,163,61,.25),transparent 34rem);border-bottom:1px solid var(--line)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px}
+h1{margin:0;font-size:clamp(24px,3vw,38px);letter-spacing:-.045em}
+.sub{margin:10px 0 0;color:var(--muted);line-height:1.65}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+button{border:1px solid #d8c7b1;background:white;border-radius:999px;padding:9px 13px;font-weight:850;cursor:pointer}
+button.primary{background:var(--accent);color:white;border-color:var(--accent)}
+button.gold{background:#fff5d6;color:#5f3b00;border-color:#edca73}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:18px;max-width:1180px;margin:0 auto;padding:18px}
+nav{position:sticky;top:14px;align-self:start;background:rgba(255,250,242,.88);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 8px 18px rgba(45,35,20,.08)}
+nav a{display:block;text-decoration:none;color:#4b3420;font-weight:850;padding:9px 10px;border-radius:12px;margin-bottom:4px}
+nav a:hover{background:var(--soft)}
+.card{background:rgba(255,250,242,.94);border:1px solid var(--line);border-radius:22px;margin-bottom:18px;box-shadow:0 10px 24px rgba(45,35,20,.1);overflow:hidden}
+.card-head{padding:18px 18px 14px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#fffaf2,#fff7e7)}
+.badge{display:inline-block;background:#efe0ca;color:#5b3a1a;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:950;margin-bottom:8px}
+h2{margin:0;font-size:clamp(20px,2.5vw,28px);letter-spacing:-.035em}
+.summary{margin:10px 0 0;line-height:1.65;color:#4b5563;font-weight:700}
+.lines{padding:14px}
+.line{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:1px solid #eadfce;background:white;border-radius:16px;padding:12px;margin-bottom:10px}
+.en{font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.6;color:#111827}
+.ko{font-size:16px;line-height:1.65;font-weight:750;color:#263143}
+.line-num{font-size:12px;color:#8a6b42;font-weight:900;margin-bottom:4px}
+.hidden-en .en{display:none}.hidden-ko .ko{display:none}.hidden-en .line,.hidden-ko .line{grid-template-columns:1fr}
+.vocab{background:white;border:1px solid var(--line);border-radius:20px;padding:16px;margin:18px 0;box-shadow:0 8px 18px rgba(45,35,20,.07)}
+.vocab h2{font-size:22px;margin-bottom:10px}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.term{border:1px solid #eadfce;border-radius:13px;padding:9px 11px;background:#fffaf2}
+.term b{color:#5b3a1a}
+.flow{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:18px;line-height:1.8}
+.flow h2{font-size:22px;margin-bottom:8px}
+.flow ol{margin:8px 0 0;padding-left:22px}
+.note{background:#dcfce7;color:var(--green);border-radius:14px;padding:12px 14px;font-weight:850;line-height:1.65;margin-top:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.line{grid-template-columns:1fr}nav{position:static}.vocab-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Speech Assignment 본문 & 한글 해석</h1>
+    <p class="sub">장면별로 영어 본문과 한글 해석을 나란히 정리했습니다. 발표 불안 → 실패 → 조언 → 재도전 흐름이 보이도록 구성했습니다.</p>
+    <div class="toolbar">
+      <button class="primary" onclick="showBoth()">영어+해석 보기</button>
+      <button class="gold" onclick="showEnglish()">영어만 보기</button>
+      <button class="gold" onclick="showKorean()">해석만 보기</button>
+      <button onclick="window.print()">인쇄하기</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav>
+    <a href="#scene1">장면 1 · Speech Assignment</a>
+<a href="#scene2">장면 2 · Fear of Speaking</a>
+<a href="#scene3">장면 3 · The First Speech Fails</a>
+<a href="#scene4">장면 4 · Ms. Harper’s Advice</a>
+<a href="#scene5">장면 5 · The Second Speech</a>
+  </nav>
+  <main>
+    
+    <section class="card" id="scene1">
+      <div class="card-head">
+        <span class="badge">장면 1</span>
+        <h2>Speech Assignment</h2>
+        <p class="summary">선생님이 존경하는 사람에 대한 연설 과제를 내고, Logan은 할머니에 대해 말하기로 바로 정합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>“The assignment is to write a speech about someone who you admire.</div>
+          <div class="ko"><div class="line-num">해석 1</div>“이번 과제는 여러분이 존경하는 사람에 대해 연설문을 쓰는 것입니다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>It could be a historical figure, a celebrity, or even someone you personally know in your life,” Ms. Harper told the class.</div>
+          <div class="ko"><div class="line-num">해석 2</div>그 사람은 역사적 인물일 수도 있고, 유명인일 수도 있으며, 심지어 여러분이 삶에서 개인적으로 아는 사람일 수도 있습니다.”라고 Harper 선생님이 반에 말했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>My classmates began brainstorming a list of people they might pick—mostly athletes, singers, and actors.</div>
+          <div class="ko"><div class="line-num">해석 3</div>우리 반 친구들은 자신들이 고를 만한 사람들의 목록을 떠올리기 시작했는데, 대부분 운동선수, 가수, 배우들이었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>However, I knew right away who my speech was going to be about.</div>
+          <div class="ko"><div class="line-num">해석 4</div>하지만 나는 내 연설이 누구에 관한 것이 될지 바로 알았다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>Grandma is the person I admire the most.</div>
+          <div class="ko"><div class="line-num">해석 5</div>할머니는 내가 가장 존경하는 사람이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>Writing a speech about her would be a piece of cake.</div>
+          <div class="ko"><div class="line-num">해석 6</div>할머니에 대해 연설문을 쓰는 것은 식은 죽 먹기일 것 같았다.</div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="card" id="scene2">
+      <div class="card-head">
+        <span class="badge">장면 2</span>
+        <h2>Fear of Speaking</h2>
+        <p class="summary">Logan은 글쓰기 과제라고만 생각했지만, 실제로는 반 친구들 앞에서 발표해야 한다는 사실을 깨닫고 극도로 불안해합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>A few days later, Ms. Harper talked about how to deliver a good speech.</div>
+          <div class="ko"><div class="line-num">해석 1</div>며칠 후, Harper 선생님은 좋은 연설을 전달하는 방법에 대해 이야기했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>This reminded me that it wasn’t just a writing assignment, but a speech I would have to give in front of my classmates!</div>
+          <div class="ko"><div class="line-num">해석 2</div>이것은 그것이 단순한 글쓰기 과제가 아니라, 내가 반 친구들 앞에서 해야 하는 연설이라는 사실을 떠올리게 했다!</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>The thought of standing in front of the entire class made my palms sweat.</div>
+          <div class="ko"><div class="line-num">해석 3</div>반 전체 앞에 서는 것을 생각하자 손바닥에 땀이 났다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>I’m too shy to raise my hand in class even when I know the answer.</div>
+          <div class="ko"><div class="line-num">해석 4</div>나는 답을 알고 있을 때조차 수업 시간에 손을 들기에는 너무 수줍음이 많다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>How on earth can I speak in front of everyone?</div>
+          <div class="ko"><div class="line-num">해석 5</div>도대체 내가 어떻게 모두 앞에서 말할 수 있겠는가?</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>I couldn’t sleep at all that night.</div>
+          <div class="ko"><div class="line-num">해석 6</div>나는 그날 밤 전혀 잠을 잘 수 없었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>The big day for the speech finally arrived, and I felt more anxious than ever.</div>
+          <div class="ko"><div class="line-num">해석 7</div>마침내 연설하는 중요한 날이 왔고, 나는 그 어느 때보다 더 불안했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>I had spent the previous week imagining how my classmates would react to my speech.</div>
+          <div class="ko"><div class="line-num">해석 8</div>나는 지난주 내내 반 친구들이 내 연설에 어떻게 반응할지 상상하며 보냈다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>I was still mostly thinking about what my classmates might think.</div>
+          <div class="ko"><div class="line-num">해석 9</div>나는 여전히 대부분 반 친구들이 어떻게 생각할지를 생각하고 있었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 10</div>I wasn’t putting much thought into what I was actually going to say.</div>
+          <div class="ko"><div class="line-num">해석 10</div>나는 실제로 내가 무엇을 말할지에 대해서는 별로 깊이 생각하지 않고 있었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 11</div>I figured I could just speak off the top of my head.</div>
+          <div class="ko"><div class="line-num">해석 11</div>나는 그냥 즉석에서 말할 수 있을 거라고 생각했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 12</div>After all, I was going to talk about my grandmother.</div>
+          <div class="ko"><div class="line-num">해석 12</div>어쨌든 나는 할머니에 대해 말할 예정이었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 13</div>I didn’t need any notes.</div>
+          <div class="ko"><div class="line-num">해석 13</div>나는 어떤 메모도 필요 없었다.</div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="card" id="scene3">
+      <div class="card-head">
+        <span class="badge">장면 3</span>
+        <h2>The First Speech Fails</h2>
+        <p class="summary">Logan은 너무 긴장한 나머지 머릿속이 하얘지고, 준비 부족으로 하고 싶었던 말을 제대로 하지 못합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>I was sweating as I walked up to the front of the class.</div>
+          <div class="ko"><div class="line-num">해석 1</div>나는 교실 앞쪽으로 걸어 나가면서 땀을 흘리고 있었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>My heart was racing so fast that I thought it might fly out of my chest.</div>
+          <div class="ko"><div class="line-num">해석 2</div>심장이 너무 빨리 뛰어서 가슴 밖으로 튀어나올 것 같았다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>I could feel my face turning red.</div>
+          <div class="ko"><div class="line-num">해석 3</div>나는 얼굴이 빨개지는 것을 느낄 수 있었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>I didn’t know where to look.</div>
+          <div class="ko"><div class="line-num">해석 4</div>나는 어디를 봐야 할지 몰랐다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>I blanked out.</div>
+          <div class="ko"><div class="line-num">해석 5</div>나는 머릿속이 하얘졌다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>I just stood there silently.</div>
+          <div class="ko"><div class="line-num">해석 6</div>나는 그저 거기에 조용히 서 있었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>Ms. Harper tried to help me out.</div>
+          <div class="ko"><div class="line-num">해석 7</div>Harper 선생님은 나를 도와주려고 했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>“Start by telling us a bit about your grandmother, Logan.”</div>
+          <div class="ko"><div class="line-num">해석 8</div>“Logan, 네 할머니에 대해 조금 말하는 것부터 시작해 보렴.”</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>I spoke about what kind of work my grandmother used to do, but I quickly ran out of words to say.</div>
+          <div class="ko"><div class="line-num">해석 9</div>나는 할머니가 예전에 어떤 일을 하셨는지에 대해 말했지만, 금방 할 말이 떨어졌다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 10</div>Then Ms. Harper said, “How about telling us a bit about why you admire her so much?”</div>
+          <div class="ko"><div class="line-num">해석 10</div>그러자 Harper 선생님이 말했다. “네가 왜 할머니를 그렇게 많이 존경하는지 조금 말해 보는 건 어떨까?”</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 11</div>I barely managed to share a short story about her.</div>
+          <div class="ko"><div class="line-num">해석 11</div>나는 가까스로 할머니에 대한 짧은 이야기를 하나 나눌 수 있었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 12</div>After that, I just rushed to my seat and put my head in my hands.</div>
+          <div class="ko"><div class="line-num">해석 12</div>그 후 나는 그냥 내 자리로 급히 돌아가 두 손에 머리를 묻었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 13</div>I knew I had messed up.</div>
+          <div class="ko"><div class="line-num">해석 13</div>나는 내가 망쳤다는 것을 알았다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 14</div>I hadn’t said all the things I wanted to say.</div>
+          <div class="ko"><div class="line-num">해석 14</div>나는 내가 말하고 싶었던 모든 것을 말하지 못했다.</div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="card" id="scene4">
+      <div class="card-head">
+        <span class="badge">장면 4</span>
+        <h2>Ms. Harper’s Advice</h2>
+        <p class="summary">Harper 선생님은 Logan에게 다른 사람의 반응이 아니라 자신이 통제할 수 있는 발표 방식에 집중해야 한다고 조언합니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>The next day, I met Ms. Harper after school to talk about the speech.</div>
+          <div class="ko"><div class="line-num">해석 1</div>다음 날, 나는 연설에 대해 이야기하기 위해 방과 후 Harper 선생님을 만났다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>I said, “I’m embarrassed about the speech.</div>
+          <div class="ko"><div class="line-num">해석 2</div>나는 말했다. “연설이 너무 부끄러워요.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>I must have looked like a fool.</div>
+          <div class="ko"><div class="line-num">해석 3</div>제가 바보처럼 보였을 게 틀림없어요.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>I know I could have done better.”</div>
+          <div class="ko"><div class="line-num">해석 4</div>제가 더 잘할 수 있었다는 걸 알아요.”</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>“It’s quite all right to fall short of your own expectations as long as you learn something from it,” she said in a warm voice.</div>
+          <div class="ko"><div class="line-num">해석 5</div>“그 경험에서 무언가를 배운다면, 네 기대에 미치지 못하는 것은 정말 괜찮단다.”라고 선생님은 따뜻한 목소리로 말했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>“What was bothering you the most while you prepared for the speech?”</div>
+          <div class="ko"><div class="line-num">해석 6</div>“연설을 준비하는 동안 무엇이 가장 너를 괴롭혔니?”</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>“I was afraid the other students would laugh at me if my speech wasn’t good enough.”</div>
+          <div class="ko"><div class="line-num">해석 7</div>“제 연설이 충분히 좋지 않으면 다른 학생들이 저를 비웃을까 봐 두려웠어요.”</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>She replied, “You certainly can’t control what others think about your speech.</div>
+          <div class="ko"><div class="line-num">해석 8</div>선생님은 대답했다. “너는 분명히 다른 사람들이 네 연설에 대해 어떻게 생각하는지를 통제할 수는 없단다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>That means you should be focusing on the one thing you can control—how you give your speech.”</div>
+          <div class="ko"><div class="line-num">해석 9</div>그 말은 네가 통제할 수 있는 한 가지, 즉 네가 연설을 어떻게 전달할지에 집중해야 한다는 뜻이야.”</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 10</div>That woke me up from the depths of despair.</div>
+          <div class="ko"><div class="line-num">해석 10</div>그 말은 나를 절망의 깊은 곳에서 깨어나게 했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 11</div>Of course, that was it!</div>
+          <div class="ko"><div class="line-num">해석 11</div>물론, 바로 그것이었다!</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 12</div>I wouldn’t have been able to make my classmates like what I wanted to say.</div>
+          <div class="ko"><div class="line-num">해석 12</div>나는 반 친구들이 내가 말하고 싶은 내용을 좋아하게 만들 수는 없었을 것이다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 13</div>I really should have focused on my performance.</div>
+          <div class="ko"><div class="line-num">해석 13</div>나는 정말로 내 발표 방식에 집중했어야 했다.</div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="card" id="scene5">
+      <div class="card-head">
+        <span class="badge">장면 5</span>
+        <h2>The Second Speech</h2>
+        <p class="summary">두 번째 발표 과제에서 Logan은 거울 앞 연습, cue cards, 시선 처리와 멈춤 연습까지 하며 준비하고, 훨씬 나은 발표를 해냅니다.</p>
+      </div>
+      <div class="lines">
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 1</div>A couple of weeks later, the class was given another speech assignment.</div>
+          <div class="ko"><div class="line-num">해석 1</div>몇 주 후, 반에는 또 다른 연설 과제가 주어졌다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 2</div>I didn’t want to drop the ball like the first time.</div>
+          <div class="ko"><div class="line-num">해석 2</div>나는 처음처럼 실수하고 싶지 않았다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 3</div>So this time, I practiced delivering the speech.</div>
+          <div class="ko"><div class="line-num">해석 3</div>그래서 이번에는 연설을 전달하는 연습을 했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 4</div>I stood in front of the mirror every day for a week and went over all the things I wanted to say.</div>
+          <div class="ko"><div class="line-num">해석 4</div>나는 일주일 동안 매일 거울 앞에 서서 내가 말하고 싶은 모든 내용을 검토했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 5</div>I used cue cards which contained key phrases about important facts.</div>
+          <div class="ko"><div class="line-num">해석 5</div>나는 중요한 사실들에 대한 핵심 문구가 적힌 cue cards를 사용했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 6</div>I rehearsed how I would stand, how I would make eye contact with the audience, and even when I would pause.</div>
+          <div class="ko"><div class="line-num">해석 6</div>나는 어떻게 서 있을지, 청중과 어떻게 눈을 맞출지, 심지어 언제 멈출지까지 연습했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 7</div>I felt nervous again when the big day finally arrived.</div>
+          <div class="ko"><div class="line-num">해석 7</div>마침내 중요한 날이 다시 왔을 때, 나는 다시 긴장했다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 8</div>But when the teacher called my name, I noticed that my nerves had actually calmed down a bit.</div>
+          <div class="ko"><div class="line-num">해석 8</div>하지만 선생님이 내 이름을 불렀을 때, 내 긴장이 실제로 조금 가라앉았다는 것을 알아차렸다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 9</div>I felt way better than the last time, for sure!</div>
+          <div class="ko"><div class="line-num">해석 9</div>확실히 지난번보다 훨씬 나아진 기분이었다!</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 10</div>I walked up to the front of the class and looked out into the audience.</div>
+          <div class="ko"><div class="line-num">해석 10</div>나는 교실 앞쪽으로 걸어 나가 청중을 바라보았다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 11</div>My heart began to race, and I took a deep breath to calm it down.</div>
+          <div class="ko"><div class="line-num">해석 11</div>심장이 뛰기 시작했고, 나는 그것을 진정시키기 위해 깊게 숨을 쉬었다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 12</div>While my voice trembled from time to time, I managed to get my whole message across.</div>
+          <div class="ko"><div class="line-num">해석 12</div>내 목소리가 때때로 떨리긴 했지만, 나는 내 전체 메시지를 전달해 냈다.</div>
+        </div>
+        
+        <div class="line">
+          <div class="en"><div class="line-num">EN 13</div>When I was done, I felt so proud of myself that I barely noticed how loudly everyone was clapping for me!</div>
+          <div class="ko"><div class="line-num">해석 13</div>끝났을 때, 나는 나 자신이 너무 자랑스러워서 모두가 나를 위해 얼마나 크게 박수치고 있는지 거의 알아차리지 못했다!</div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="vocab">
+      <h2>주요 표현 정리</h2>
+      <div class="vocab-grid">
+        <div class="term"><b>assignment</b><br>과제</div>
+<div class="term"><b>admire</b><br>존경하다</div>
+<div class="term"><b>brainstorm</b><br>아이디어를 떠올리다</div>
+<div class="term"><b>a piece of cake</b><br>식은 죽 먹기, 매우 쉬운 일</div>
+<div class="term"><b>deliver a speech</b><br>연설하다, 발표하다</div>
+<div class="term"><b>make my palms sweat</b><br>손에 땀이 나게 하다</div>
+<div class="term"><b>How on earth ~?</b><br>도대체 어떻게 ~?</div>
+<div class="term"><b>anxious</b><br>불안한</div>
+<div class="term"><b>off the top of my head</b><br>즉석에서, 준비 없이</div>
+<div class="term"><b>blank out</b><br>머릿속이 하얘지다</div>
+<div class="term"><b>run out of words</b><br>할 말이 떨어지다</div>
+<div class="term"><b>mess up</b><br>망치다, 실수하다</div>
+<div class="term"><b>fall short of expectations</b><br>기대에 미치지 못하다</div>
+<div class="term"><b>bother</b><br>괴롭히다, 신경 쓰이게 하다</div>
+<div class="term"><b>control</b><br>통제하다</div>
+<div class="term"><b>performance</b><br>발표 방식, 수행</div>
+<div class="term"><b>drop the ball</b><br>실수하다, 일을 망치다</div>
+<div class="term"><b>cue cards</b><br>발표 보조 카드</div>
+<div class="term"><b>rehearse</b><br>예행연습하다</div>
+<div class="term"><b>make eye contact</b><br>눈을 맞추다</div>
+<div class="term"><b>pause</b><br>잠시 멈추다</div>
+<div class="term"><b>nerves</b><br>긴장</div>
+<div class="term"><b>calm down</b><br>진정되다</div>
+<div class="term"><b>tremble</b><br>떨리다</div>
+<div class="term"><b>get my message across</b><br>내 메시지를 전달하다</div>
+      </div>
+    </section>
+    <section class="flow">
+      <h2>전체 핵심 흐름</h2>
+      <ol>
+        <li>Logan은 존경하는 사람에 대한 연설 과제를 받고 할머니를 주제로 고른다.</li>
+        <li>하지만 반 친구들 앞에서 말해야 한다는 사실 때문에 지나치게 긴장한다.</li>
+        <li>첫 발표에서는 준비 부족과 불안 때문에 말을 제대로 하지 못한다.</li>
+        <li>Harper 선생님은 다른 사람의 생각보다 자신이 통제할 수 있는 발표 방식에 집중하라고 조언한다.</li>
+        <li>두 번째 발표에서는 연습, cue cards, 시선 처리, 멈춤까지 준비해 성공적으로 메시지를 전달한다.</li>
+      </ol>
+      <div class="note">핵심 교훈: 결과나 타인의 반응은 완전히 통제할 수 없지만, 준비와 전달 방식은 스스로 통제할 수 있다.</div>
+    </section>
+  </main>
+</div>
+
+<script>
+function showBoth(){document.body.classList.remove('hidden-en','hidden-ko')}
+function showEnglish(){document.body.classList.remove('hidden-en');document.body.classList.add('hidden-ko')}
+function showKorean(){document.body.classList.remove('hidden-ko');document.body.classList.add('hidden-en')}
+</script>
+</body>
+</html>

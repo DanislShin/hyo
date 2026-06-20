@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Specialization 드래그 문장 배열</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f1e8;color:#1f2937;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo",Segoe UI,sans-serif}
+header,main{max-width:1100px;margin:0 auto;padding:22px 16px}h1{margin:0;font-size:clamp(23px,3vw,34px);letter-spacing:-.04em}.sub{color:#64748b;line-height:1.6;margin:8px 0 14px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}button{border:1px solid #d8c7b1;background:white;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}.primary{background:#7c4a28;color:white}.gold{background:#fff5d6;color:#5f3b00}
+.progress{display:flex;gap:12px;align-items:center;margin:8px 0 18px}.track{height:12px;background:#fff;border:1px solid #d8c7b1;border-radius:999px;flex:1;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#7c4a28,#d7a33d)}.score{font-weight:900;color:#5b3a1a}
+.card{background:#fffaf2;border:1px solid #dfd3c3;border-radius:20px;padding:16px;margin:0 0 16px;box-shadow:0 10px 24px rgba(45,35,20,.1)}
+.head{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}.num{background:#efe0ca;color:#5b3a1a;border-radius:999px;padding:6px 11px;font-weight:900}.ko{flex:1;font-size:18px;font-weight:850;line-height:1.5}.status{min-width:75px;text-align:right;color:#64748b;font-weight:900}
+.zone,.bank{min-height:62px;border-radius:15px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}.zone{background:white;border:2px dashed #cbbba7;margin-bottom:10px}.bank{background:#fff;border:1px solid #dfd3c3}.over{background:#fff6d8!important;border-color:#d7a33d!important}
+.chip{display:inline-flex;align-items:center;min-height:36px;padding:7px 11px;border:1px solid #d6c8b7;border-radius:999px;background:white;font-size:16px;font-weight:850;box-shadow:0 2px 7px rgba(0,0,0,.06);cursor:grab}.chip.dragging{opacity:.35}
+.actions{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:10px}.ans{display:none;margin-top:10px;background:#f8ead4;border-radius:13px;padding:11px;font-weight:800;line-height:1.55;color:#513414}.show{display:block}
+.correct .zone{background:#dcfce7;border-color:#22c55e}.wrong .zone{background:#fee2e2;border-color:#ef4444}.correct .status{color:#15803d}.wrong .status{color:#b91c1c}
+.final{background:#fff;border:1px solid #dfd3c3;border-radius:18px;padding:16px;margin-top:22px;line-height:1.75}.final h2{margin:0 0 8px}.good{background:#dcfce7;color:#14532d;border-radius:12px;padding:10px;font-weight:900}
+@media(max-width:680px){.head{flex-direction:column}.status{text-align:left}.ko{font-size:16px}.chip{font-size:15px}}
+</style>
+</head>
+<body>
+<header>
+<h1>Specialization 문장 배열 드래그 퀴즈</h1>
+<p class="sub">한글 해석을 보고 단어 카드를 <b>정답 칸으로 드래그</b>해서 영어 문장을 완성하세요. 긴 문장은 의미 단위로 잘랐습니다.</p>
+<div class="toolbar">
+<button class="primary" onclick="checkAll()">전체 채점</button>
+<button class="gold" onclick="showAll()">전체 정답 보기</button>
+<button onclick="hideAll()">정답 숨기기</button>
+<button onclick="resetAll()">전체 초기화</button>
+</div>
+</header>
+<main>
+<div class="progress"><div class="track"><div class="bar" id="bar"></div></div><div class="score" id="score"></div></div>
+<section id="quiz"></section>
+<section class="final">
+<h2>빈칸 정답 정리</h2>
+<p>도시와 교통의 발달로 사람들이 모든 것을 직접 만들 필요가 줄고, 특정 직업이나 특정 상품 생산에 집중한 뒤 다른 지역과 교환할 수 있게 되었다는 내용입니다.</p>
+<p class="good">정답: ⑤ specialization<br>→ 전문화</p>
+<p>① travel<br>② education<br>③ cooperation<br>④ independence<br>⑤ <b>specialization</b></p>
+</section>
+</main>
+<script>
+const Q=[{"ko": "도시의 성장과 교통 기반 시설의 개선은", "tokens": ["The", "rise", "of", "cities", "and", "the", "improvement", "in", "transport", "infrastructure"], "id": 1, "answer": "The rise of cities and the improvement in transport infrastructure"}, {"ko": "전문화에 대한 새로운 기회를 가져왔다.", "tokens": ["brought", "about", "new", "opportunities", "for", "specialization."], "id": 2, "answer": "brought about new opportunities for specialization."}, {"ko": "인구가 밀집한 도시는 정규직 일자리를 제공했다", "tokens": ["Densely", "populated", "cities", "provided", "full-time", "employment"], "id": 3, "answer": "Densely populated cities provided full-time employment"}, {"ko": "목수, 성직자, 군인, 그리고 변호사들에게.", "tokens": ["for", "carpenters,", "priests,", "soldiers", "and", "lawyers."], "id": 4, "answer": "for carpenters, priests, soldiers and lawyers."}, {"ko": "마을들은 발견했다", "tokens": ["Villages", "discovered"], "id": 5, "answer": "Villages discovered"}, {"ko": "정말 좋은 와인, 올리브유 또는 도자기를 생산하는 것으로 명성을 얻은", "tokens": ["that", "gained", "a", "reputation", "for", "producing", "really", "good", "wine,", "olive", "oil", "or", "ceramics"], "id": 6, "answer": "that gained a reputation for producing really good wine, olive oil or ceramics"}, {"ko": "그 하나의 상품에 거의 전적으로 집중하는 것이 가치 있다는 것을", "tokens": ["that", "it", "was", "worth", "their", "while", "to", "concentrate", "nearly", "exclusively", "on", "that", "product"], "id": 7, "answer": "that it was worth their while to concentrate nearly exclusively on that product"}, {"ko": "그리고 그것을 다른 정착지들과 거래하는 것이 가치 있다는 것을", "tokens": ["and", "trade", "it", "with", "other", "settlements"], "id": 8, "answer": "and trade it with other settlements"}, {"ko": "그들이 필요로 하는 다른 모든 물건들을 얻기 위해.", "tokens": ["for", "all", "the", "other", "goods", "they", "needed."], "id": 9, "answer": "for all the other goods they needed."}, {"ko": "이것은 아주 타당했다.", "tokens": ["This", "made", "a", "lot", "of", "sense."], "id": 10, "answer": "This made a lot of sense."}, {"ko": "기후와 토양은 다르다,", "tokens": ["Climates", "and", "soils", "differ,"], "id": 11, "answer": "Climates and soils differ,"}, {"ko": "그러니 왜 자기 뒷마당에서 난 평범한 와인을 마시겠는가?", "tokens": ["so", "why", "drink", "ordinary", "wine", "from", "your", "backyard"], "id": 12, "answer": "so why drink ordinary wine from your backyard"}, {"ko": "더 부드러운 품종을 살 수 있다면", "tokens": ["if", "you", "can", "buy", "a", "smoother", "variety"], "id": 13, "answer": "if you can buy a smoother variety"}, {"ko": "토양과 기후가 포도나무에 훨씬 더 잘 맞는 곳에서 난.", "tokens": ["from", "a", "place", "whose", "soil", "and", "climate", "is", "much", "better", "suited", "to", "grape", "vines?"], "id": 14, "answer": "from a place whose soil and climate is much better suited to grape vines?"}, {"ko": "만약 당신 뒷마당의 점토가", "tokens": ["If", "the", "clay", "in", "your", "backyard"], "id": 15, "answer": "If the clay in your backyard"}, {"ko": "더 튼튼하고 더 예쁜 항아리를 만들게 해 준다면,", "tokens": ["makes", "stronger", "and", "prettier", "pots,"], "id": 16, "answer": "makes stronger and prettier pots,"}, {"ko": "그렇다면 당신은 교환을 할 수 있다.", "tokens": ["then", "you", "can", "make", "an", "exchange."], "id": 17, "answer": "then you can make an exchange."}];
+const quiz=document.getElementById('quiz'), score=document.getElementById('score'), bar=document.getElementById('bar');
+let dragged=null;
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function norm(a){return a.join(' ').trim().replace(/\s+/g,' ')}
+function chip(t){let s=document.createElement('span');s.className='chip';s.draggable=true;s.textContent=t;s.dataset.t=t;
+s.ondragstart=e=>{dragged=s;s.classList.add('dragging');e.dataTransfer.effectAllowed='move'};
+s.ondragend=()=>{s.classList.remove('dragging');dragged=null;document.querySelectorAll('.over').forEach(x=>x.classList.remove('over'))};
+s.ondblclick=()=>{let c=s.closest('.card'), z=c.querySelector('.zone'), b=c.querySelector('.bank');(s.parentElement===b?z:b).appendChild(s);clear(c);update()};
+return s}
+function setupDrop(el){el.ondragover=e=>{e.preventDefault();el.classList.add('over');let before=getBefore(el,e.clientX,e.clientY);if(dragged){before?el.insertBefore(dragged,before):el.appendChild(dragged)}};
+el.ondragleave=()=>el.classList.remove('over');el.ondrop=e=>{e.preventDefault();el.classList.remove('over');let c=el.closest('.card');clear(c);update()}}
+function getBefore(container,x,y){let els=[...container.querySelectorAll('.chip:not(.dragging)')];let best=null,bestOffset=-Infinity;for(const child of els){let r=child.getBoundingClientRect();let off=Math.abs(y-(r.top+r.height/2))<r.height?x-(r.left+r.width/2):y-(r.top+r.height/2);if(off<0&&off>bestOffset){bestOffset=off;best=child}}return best}
+function render(){quiz.innerHTML='';Q.forEach(q=>{let c=document.createElement('article');c.className='card';c.dataset.id=q.id;c.innerHTML=`<div class="head"><div class="num">${q.id}</div><div class="ko">${q.ko}</div><div class="status">미완성</div></div><div class="zone"></div><div class="bank"></div><div class="actions"><div><button class="one">채점</button> <button class="reset">초기화</button></div><button class="showbtn">정답 보기</button></div><div class="ans"><b>정답:</b> ${q.answer}</div>`;
+let z=c.querySelector('.zone'), b=c.querySelector('.bank');setupDrop(z);setupDrop(b);shuffle(q.tokens).forEach(t=>b.appendChild(chip(t)));
+c.querySelector('.one').onclick=()=>check(c);c.querySelector('.reset').onclick=()=>reset(c);c.querySelector('.showbtn').onclick=()=>c.querySelector('.ans').classList.toggle('show');quiz.appendChild(c)});update()}
+function q(c){return Q.find(x=>x.id==c.dataset.id)}function toks(c){return [...c.querySelectorAll('.zone .chip')].map(x=>x.dataset.t)}
+function clear(c){c.classList.remove('correct','wrong');let n=toks(c).length,total=q(c).tokens.length;c.querySelector('.status').textContent=n?`${n} / ${total}`:'미완성'}
+function check(c){c.classList.remove('correct','wrong');let ok=norm(toks(c))===norm(q(c).tokens);c.classList.add(ok?'correct':'wrong');c.querySelector('.status').textContent=ok?'정답':'오답';update()}
+function reset(c){let qq=q(c),z=c.querySelector('.zone'),b=c.querySelector('.bank');z.innerHTML='';b.innerHTML='';shuffle(qq.tokens).forEach(t=>b.appendChild(chip(t)));c.querySelector('.ans').classList.remove('show');clear(c);update()}
+function update(){let n=[...document.querySelectorAll('.card')].filter(c=>norm(toks(c))===norm(q(c).tokens)).length;score.textContent=`${n} / ${Q.length}`;bar.style.width=(n/Q.length*100)+'%'}
+function checkAll(){document.querySelectorAll('.card').forEach(check);scrollTo({top:0,behavior:'smooth'})}
+function showAll(){document.querySelectorAll('.ans').forEach(a=>a.classList.add('show'))}
+function hideAll(){document.querySelectorAll('.ans').forEach(a=>a.classList.remove('show'))}
+function resetAll(){document.querySelectorAll('.card').forEach(reset);scrollTo({top:0,behavior:'smooth'})}
+render();
+</script>
+</body></html>
